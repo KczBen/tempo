@@ -55,6 +55,16 @@ public class Lagalisti {
 
     }
 
+    /**
+     * index á fyrra lag á lagalista (Tobba)
+     */
+    public void fyrri(){
+        if (index == 0) {
+            index = listi.size() - 1; //fer í aftasta lag á lista svo lendum ekki out of bounds
+        }else{
+        index = --index % listi.size();}
+    }
+
     // get og set aðferðir
 
     public ObservableList<Lag> getListi() {

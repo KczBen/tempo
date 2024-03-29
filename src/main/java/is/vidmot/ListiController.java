@@ -99,6 +99,8 @@ public class ListiController  {
         }
     }
 
+
+
     /**
      * Fara aftur í heima view. Ef spilari er til stöðva spilarann
      *
@@ -183,6 +185,23 @@ public class ListiController  {
         veljaLag();
         // spila lag
         spilaLag();
+    }
+
+    private void fyrraLag(){
+        lagalisti.fyrri();
+        fxListView.getSelectionModel().selectIndices(lagalisti.getIndex());
+        veljaLag();
+        spilaLag();
+    }
+
+    @FXML
+    public void onNextSong(ActionEvent actionEvent) {
+        naestaLag();
+    }
+
+    @FXML
+    public void onPrevSong(ActionEvent actionEvent) {
+        fyrraLag();
     }
 }
 
