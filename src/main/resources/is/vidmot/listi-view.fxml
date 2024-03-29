@@ -39,3 +39,5 @@
       <Button onAction="#onHeim"  layoutX="252.0" layoutY="344.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="209.0" text="Heim" />
     </children>
 </AnchorPane>
+
+<!-- Icon by sonnycandra https://www.freepik.com/icon/shuffle_11305528#fromView=search&page=1&position=60&uuid=2173334d-76ca-4738-a090-85adc9ab38c9" -->
