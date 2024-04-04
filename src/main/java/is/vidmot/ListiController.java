@@ -46,6 +46,7 @@ public class ListiController  {
     private Lagalisti lagalisti; // lagalistinn
     private MediaPlayer player; // ein player breyta per forritið
     private Lag validLag;       // núverandi valið lag
+    private Boolean shuffle = false; // Don't shuffle by default
 
     /**
      * Frumstillir lagalistann og tengir hann við ListView viðmótshlut
@@ -181,7 +182,14 @@ public class ListiController  {
      */
     private void naestaLag() {
         // setja valið lag sem næsta lag á núverandi lagalista
-        lagalisti.naesti();
+        if (this.shuffle = false)
+        {
+            lagalisti.naesti();
+        }
+        else
+        {
+            lagalisti.random();
+        }
         // uppfæra ListView til samræmis, þ.e. að næsta lag sé valið
         fxListView.getSelectionModel().selectIndices(lagalisti.getIndex());
         // velja lag
