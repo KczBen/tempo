@@ -46,6 +46,7 @@ public class ListiController  {
     private Lagalisti lagalisti; // lagalistinn
     private MediaPlayer player; // ein player breyta per forritið
     private Lag validLag;       // núverandi valið lag
+    private Boolean shuffle = false; // Don't shuffle by default
 
     /**
      * Frumstillir lagalistann og tengir hann við ListView viðmótshlut
@@ -171,6 +172,9 @@ public class ListiController  {
         player.currentTimeProperty().addListener((observable, old, newValue) ->
                 fxProgressBar.setProgress(newValue.divide(validLag.getLengd()).toMillis()));
 
+        // Reset looping property. Not sure if it should be 0 or 1 yet
+        player.setCycleCount(0);
+
     }
 
     /**
@@ -178,7 +182,14 @@ public class ListiController  {
      */
     private void naestaLag() {
         // setja valið lag sem næsta lag á núverandi lagalista
-         lagalisti.naesti();
+        if (this.shuffle = false)
+        {
+            lagalisti.naesti();
+        }
+        else
+        {
+            lagalisti.random();
+        }
         // uppfæra ListView til samræmis, þ.e. að næsta lag sé valið
         fxListView.getSelectionModel().selectIndices(lagalisti.getIndex());
         // velja lag
@@ -192,6 +203,20 @@ public class ListiController  {
         fxListView.getSelectionModel().selectIndices(lagalisti.getIndex());
         veljaLag();
         spilaLag();
+    }
+
+    /**
+     * Shoooooould work (Bence)
+     */
+    private void loop()
+    {
+        player.setCycleCount(MediaPlayer.INDEFINITE);
+    }
+
+    @FXML
+    public void onLoop(ActionEvent actionEvent)
+    {
+        loop();
     }
 
     @FXML
