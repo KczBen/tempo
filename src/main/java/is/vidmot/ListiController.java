@@ -206,18 +206,44 @@ public class ListiController  {
         spilaLag();
     }
 
-    /**
-     * Shoooooould work (Bence)
-     */
     private void toggleLoop()
     {
-        if (player.getCycleCount() == MediaPlayer.INDEFINITE)
+        
+        if (player.getCycleCount() == 1)
         {
+            player.setCycleCount(MediaPlayer.INDEFINITE);
+
+            // If loop points have been set, loop from there
+            if (this.startTime != Duration.ZERO || this.stopTime != new Duration(validLag.getLengd()))
+            {
+                // Check if seek head is out of bounds for the repeat, set to start if so
+                if (player.getCurrentTime().greaterThan(this.stopTime) || player.getCurrentTime().lessThan(this.startTime))
+                {
+                    player.seek(startTime);
+                }
+    
+                player.setStartTime(this.startTime);
+                player.setStopTime(this.stopTime);
+            }
+        }
+
+        else
+        {
+            // Stop looping and clear loop points
+            clearPoints();
             player.setCycleCount(1);
+        }
+    }
+
+    private void toggleShuffle()
+    {
+        if (this.shuffle == false)
+        {
+            this.shuffle = true;
         }
         else
         {
-            player.setCycleCount(MediaPlayer.INDEFINITE);
+            this.shuffle = false;
         }
     }
 
@@ -259,6 +285,12 @@ public class ListiController  {
     public void onLoop(ActionEvent actionEvent)
     {
         toggleLoop();
+    }
+
+    @FXML
+    public void onShuffle(ActionEvent actionEvent)
+    {
+        toggleShuffle();
     }
 
     @FXML
