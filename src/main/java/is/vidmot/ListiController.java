@@ -138,6 +138,8 @@ public class ListiController  {
     private void spilaLag() {
         setjaMynd(fxPlayPauseView, PAUSE);
         // Búa til nýjan player
+        // Clear start and end points
+        clearPoints();
         setjaPlayer();
         // setja spilun í gang
         player.play();
@@ -167,17 +169,13 @@ public class ListiController  {
         // Smíða nýjan player með nýju Media fyrir lagið
         player = new MediaPlayer(new Media(getClass().getResource(validLag.getMedia()).toExternalForm()));
         // Láta player vita hvenær lagið endar - stop time
-        player.setStopTime(new Duration(validLag.getLengd()));
-        player.setStartTime(Duration.ZERO);
+        player.setStartTime(this.startTime);
+        player.setStopTime(this.stopTime);
         // setja fall sem er keyrð þegar lagið hættir
         player.setOnEndOfMedia(this::naestaLag);
         // setja listener tengingu á milli player og progress bar
         player.currentTimeProperty().addListener((observable, old, newValue) ->
                 fxProgressBar.setProgress(newValue.divide(validLag.getLengd()).toMillis()));
-
-        // Reset looping property. Not sure if it should be 0 or 1 yet
-        // player.setCycleCount(0);
-
     }
 
     /**
@@ -211,9 +209,16 @@ public class ListiController  {
     /**
      * Shoooooould work (Bence)
      */
-    private void loop()
+    private void toggleLoop()
     {
-        player.setCycleCount(MediaPlayer.INDEFINITE);
+        if (player.getCycleCount() == MediaPlayer.INDEFINITE)
+        {
+            player.setCycleCount(1);
+        }
+        else
+        {
+            player.setCycleCount(MediaPlayer.INDEFINITE);
+        }
     }
 
     private void setStart()
@@ -253,7 +258,7 @@ public class ListiController  {
     @FXML
     public void onLoop(ActionEvent actionEvent)
     {
-        loop();
+        toggleLoop();
     }
 
     @FXML
