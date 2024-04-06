@@ -47,6 +47,8 @@ public class ListiController  {
     private MediaPlayer player; // ein player breyta per forritið
     private Lag validLag;       // núverandi valið lag
     private Boolean shuffle = false; // Don't shuffle by default
+    private Duration startTime;
+    private Duration stopTime;
 
     /**
      * Frumstillir lagalistann og tengir hann við ListView viðmótshlut
@@ -166,6 +168,7 @@ public class ListiController  {
         player = new MediaPlayer(new Media(getClass().getResource(validLag.getMedia()).toExternalForm()));
         // Láta player vita hvenær lagið endar - stop time
         player.setStopTime(new Duration(validLag.getLengd()));
+        player.setStartTime(Duration.ZERO);
         // setja fall sem er keyrð þegar lagið hættir
         player.setOnEndOfMedia(this::naestaLag);
         // setja listener tengingu á milli player og progress bar
@@ -211,6 +214,40 @@ public class ListiController  {
     private void loop()
     {
         player.setCycleCount(MediaPlayer.INDEFINITE);
+    }
+
+    private void setStart()
+    {
+        this.startTime = player.getCurrentTime();
+    }
+
+    private void setStop()
+    {
+        this.stopTime = player.getCurrentTime();
+    }
+
+    private void clearPoints()
+    {
+        this.startTime = Duration.ZERO;
+        this.stopTime = new Duration(validLag.getLengd());
+    }
+
+    @FXML
+    public void onClearPoints(ActionEvent actionEvent)
+    {
+        clearPoints();
+    }
+
+    @FXML
+    public void onSetStart(ActionEvent actionEvent)
+    {
+        setStart();
+    }
+
+    @FXML
+    public void onSetStop(ActionEvent actionEvent)
+    {
+        setStop();
     }
 
     @FXML
