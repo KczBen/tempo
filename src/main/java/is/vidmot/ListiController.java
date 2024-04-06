@@ -173,7 +173,7 @@ public class ListiController  {
                 fxProgressBar.setProgress(newValue.divide(validLag.getLengd()).toMillis()));
 
         // Reset looping property. Not sure if it should be 0 or 1 yet
-        player.setCycleCount(0);
+        // player.setCycleCount(0);
 
     }
 
