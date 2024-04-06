@@ -231,6 +231,8 @@ public class ListiController  {
         {
             // Stop looping and clear loop points
             clearPoints();
+            player.setStartTime(this.startTime);
+            player.setStopTime(this.stopTime);
             player.setCycleCount(1);
         }
     }
