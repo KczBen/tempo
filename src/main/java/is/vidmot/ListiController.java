@@ -47,6 +47,8 @@ public class ListiController  {
     private MediaPlayer player; // ein player breyta per forritið
     private Lag validLag;       // núverandi valið lag
     private Boolean shuffle = false; // Don't shuffle by default
+    private Duration startTime;
+    private Duration stopTime;
 
     /**
      * Frumstillir lagalistann og tengir hann við ListView viðmótshlut
@@ -136,6 +138,8 @@ public class ListiController  {
     private void spilaLag() {
         setjaMynd(fxPlayPauseView, PAUSE);
         // Búa til nýjan player
+        // Clear start and end points
+        clearPoints();
         setjaPlayer();
         // setja spilun í gang
         player.play();
@@ -165,16 +169,13 @@ public class ListiController  {
         // Smíða nýjan player með nýju Media fyrir lagið
         player = new MediaPlayer(new Media(getClass().getResource(validLag.getMedia()).toExternalForm()));
         // Láta player vita hvenær lagið endar - stop time
-        player.setStopTime(new Duration(validLag.getLengd()));
+        player.setStartTime(this.startTime);
+        player.setStopTime(this.stopTime);
         // setja fall sem er keyrð þegar lagið hættir
         player.setOnEndOfMedia(this::naestaLag);
         // setja listener tengingu á milli player og progress bar
         player.currentTimeProperty().addListener((observable, old, newValue) ->
                 fxProgressBar.setProgress(newValue.divide(validLag.getLengd()).toMillis()));
-
-        // Reset looping property. Not sure if it should be 0 or 1 yet
-        player.setCycleCount(0);
-
     }
 
     /**
@@ -205,18 +206,93 @@ public class ListiController  {
         spilaLag();
     }
 
-    /**
-     * Shoooooould work (Bence)
-     */
-    private void loop()
+    private void toggleLoop()
     {
-        player.setCycleCount(MediaPlayer.INDEFINITE);
+        
+        if (player.getCycleCount() == 1)
+        {
+            player.setCycleCount(MediaPlayer.INDEFINITE);
+
+            // If loop points have been set, loop from there
+            if (this.startTime != Duration.ZERO || this.stopTime != new Duration(validLag.getLengd()))
+            {
+                // Check if seek head is out of bounds for the repeat, set to start if so
+                if (player.getCurrentTime().greaterThan(this.stopTime) || player.getCurrentTime().lessThan(this.startTime))
+                {
+                    player.seek(startTime);
+                }
+    
+                player.setStartTime(this.startTime);
+                player.setStopTime(this.stopTime);
+            }
+        }
+
+        else
+        {
+            // Stop looping and clear loop points
+            clearPoints();
+            player.setStartTime(this.startTime);
+            player.setStopTime(this.stopTime);
+            player.setCycleCount(1);
+        }
+    }
+
+    private void toggleShuffle()
+    {
+        if (this.shuffle == false)
+        {
+            this.shuffle = true;
+        }
+        else
+        {
+            this.shuffle = false;
+        }
+    }
+
+    private void setStart()
+    {
+        this.startTime = player.getCurrentTime();
+    }
+
+    private void setStop()
+    {
+        this.stopTime = player.getCurrentTime();
+    }
+
+    private void clearPoints()
+    {
+        this.startTime = Duration.ZERO;
+        this.stopTime = new Duration(validLag.getLengd());
+    }
+
+    @FXML
+    public void onClearPoints(ActionEvent actionEvent)
+    {
+        clearPoints();
+    }
+
+    @FXML
+    public void onSetStart(ActionEvent actionEvent)
+    {
+        setStart();
+    }
+
+    @FXML
+    public void onSetStop(ActionEvent actionEvent)
+    {
+        setStop();
     }
 
     @FXML
     public void onLoop(ActionEvent actionEvent)
     {
-        loop();
+        toggleLoop();
+    }
+
+    @FXML
+    public void onShuffle(ActionEvent actionEvent)
+    {
+        toggleShuffle();
     }
 
     @FXML
