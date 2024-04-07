@@ -1,7 +1,7 @@
 package is.vidmot;
 /******************************************************************************
- *  Nafn    : Ebba Þóra Hvannberg
- *  T-póstur: ebba@hi.is
+ *  Nafn    :
+ *  T-póstur:
  *  Viðmótsforritun 2024
  *
  *  Controller fyrir lagalistann
@@ -18,6 +18,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -29,8 +30,13 @@ import javafx.util.Duration;
 public class ListiController  {
 
     // fastar
+    private boolean isMuted = false;
+    private double setbackVol = 100;
+
     private final String PAUSE = "images/pause.png";
     private final String PlAY = "images/play.png";
+    private final String MUTE = "images/volume_mute.png";
+    private final String UNMUTE = "images/volume_unmute.png";
 
     // viðmótshlutir
     @FXML
@@ -41,6 +47,10 @@ public class ListiController  {
     protected ListView<Lag> fxListView; // lagalistinn
     @FXML
     protected ImageView fxMyndLagView;    // mynd fyrir lagið
+    @FXML
+    protected Slider fxVolumeSlider;
+    @FXML
+    protected ImageView fxMuteIcon;
 
     // vinnslan
     private Lagalisti lagalisti; // lagalistinn
@@ -65,6 +75,8 @@ public class ListiController  {
         veljaLag();
         // setur upp player
         setjaPlayer();
+        // virkjar hljóstyrkinn
+        setjaVolume();
     }
 
     /**
@@ -168,6 +180,7 @@ public class ListiController  {
         player.setStopTime(new Duration(validLag.getLengd()));
         // setja fall sem er keyrð þegar lagið hættir
         player.setOnEndOfMedia(this::naestaLag);
+        uppfaeraVolume();
         // setja listener tengingu á milli player og progress bar
         player.currentTimeProperty().addListener((observable, old, newValue) ->
                 fxProgressBar.setProgress(newValue.divide(validLag.getLengd()).toMillis()));
@@ -175,6 +188,67 @@ public class ListiController  {
         // Reset looping property. Not sure if it should be 0 or 1 yet
         player.setCycleCount(0);
 
+    }
+
+    /**
+     * Setur upp virkni fyrir hljóðstyrkinn innan silderins.
+     */
+    private void setjaVolume() {
+        fxVolumeSlider.setValue(setbackVol);
+        fxVolumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (player != null) {
+                player.setVolume(newVal.doubleValue() / 100);
+                if (player.getVolume() > 0) {
+                    isMuted = false;
+                    uppfaeraMuteIcon(MUTE);
+                } else {
+                    isMuted = true;
+                    uppfaeraMuteIcon(UNMUTE);
+                }
+            }
+        });
+        fxMuteIcon.setOnMouseClicked(event -> setjaMute());
+    }
+
+    /**
+     * Útfærsla á mute/unmute virkni fyrir takkann (ImageView hlut).
+     */
+    private void setjaMute() {
+        if (isMuted) {
+            player.setVolume(setbackVol / 100);
+            uppfaeraMuteIcon(MUTE);
+            isMuted = false;
+        } else {
+            setbackVol = player.getVolume() * 100;
+            player.setVolume(0);
+            uppfaeraMuteIcon(UNMUTE);
+            isMuted = true;
+        }
+        uppfaeraVolume();
+    }
+
+    /**
+     * Gætir þess að hljóðstyrkurinn varðveitist.
+     */
+    private void uppfaeraVolume() {
+        if (player != null) {
+            if (!isMuted) {
+                player.setVolume(fxVolumeSlider.getValue() / 100);
+                uppfaeraMuteIcon(MUTE);
+            } else {
+                player.setVolume(0);
+                uppfaeraMuteIcon(UNMUTE);
+            }
+        }
+    }
+
+    /**
+     * Uppfærir mynd á mute/unmute takka (ImageView hlut).
+     *
+     * @param muteIcon      string sem lýsir myndinni fyrir mute/unmute takka
+     */
+    private void uppfaeraMuteIcon(String muteIcon) {
+        setjaMynd(fxMuteIcon, muteIcon);
     }
 
     /**
@@ -196,6 +270,7 @@ public class ListiController  {
         veljaLag();
         // spila lag
         spilaLag();
+        uppfaeraVolume();
     }
 
     private void fyrraLag(){
@@ -203,6 +278,7 @@ public class ListiController  {
         fxListView.getSelectionModel().selectIndices(lagalisti.getIndex());
         veljaLag();
         spilaLag();
+        uppfaeraVolume();
     }
 
     /**
