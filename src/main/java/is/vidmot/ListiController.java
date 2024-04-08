@@ -188,10 +188,6 @@ public class ListiController  {
         // setja listener tengingu á milli player og progress bar
         player.currentTimeProperty().addListener((observable, old, newValue) ->
                 fxProgressBar.setProgress(newValue.divide(validLag.getLengd()).toMillis()));
-        
-        // These don't quie work yet
-        // fxLokatimi.setText(player.getTotalDuration().toString());
-        // fxUpphafstimi.setText(player.getStartTime().toString());
     }
 
     /**
@@ -311,8 +307,6 @@ public class ListiController  {
                 player.setStartTime(this.startTime);
                 player.setStopTime(this.stopTime);
             }
-
-            System.out.println(player.getCycleCount());
         }
 
         else
@@ -391,7 +385,7 @@ public class ListiController  {
     @FXML
     public void onNextSong(ActionEvent actionEvent) {
         // Need to first stop looping
-        toggleLoop();
+        player.setCycleCount(1);
         naestaLag();
     }
 
