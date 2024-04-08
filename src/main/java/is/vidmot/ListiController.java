@@ -261,7 +261,7 @@ public class ListiController  {
      */
     private void naestaLag() {
         // setja valið lag sem næsta lag á núverandi lagalista
-        if (this.shuffle = false)
+        if (this.shuffle == false)
         {
             lagalisti.naesti();
         }
@@ -347,7 +347,7 @@ public class ListiController  {
 
     private void clearPoints()
     {
-        this.startTime = Duration.ZERO;
+        this.startTime = Duration.millis(0);
         this.stopTime = new Duration(validLag.getLengd());
         fxUpphafstimi.setText("--:--");
         fxLokatimi.setText("--:--");

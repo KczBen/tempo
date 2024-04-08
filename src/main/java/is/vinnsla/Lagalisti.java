@@ -52,15 +52,13 @@ public class Lagalisti {
      * index á næsta lag á lagalista
      */
     public void naesti() {
-        System.out.println("Playing next song");
         index = ++index % listi.size();
     }
 
     public void random()
     {
-        System.out.println("Playing RANDOM");
         Random rng = new Random();
-        index = rng.nextInt(0, listi.size()-1);
+        index = rng.nextInt(0, listi.size());
     }
 
     /**
