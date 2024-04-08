@@ -14,12 +14,8 @@ import javafx.collections.ObservableList;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class Lagalisti {
 
@@ -56,11 +52,13 @@ public class Lagalisti {
      * index á næsta lag á lagalista
      */
     public void naesti() {
+        System.out.println("Playing next song");
         index = ++index % listi.size();
     }
 
     public void random()
     {
+        System.out.println("Playing RANDOM");
         Random rng = new Random();
         index = rng.nextInt(0, listi.size()-1);
     }
