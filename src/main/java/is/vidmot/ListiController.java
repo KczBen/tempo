@@ -63,7 +63,6 @@ public class ListiController  {
     /**
      * Frumstillir lagalistann og tengir hann við ListView viðmótshlut
      */
-
     public void initialize() {
         // setur lagalistann sem núverandi lagalista úr Lagalistar
         lagalisti = Lagalistar.getNuverandi();
@@ -101,7 +100,6 @@ public class ListiController  {
      *
      * @param actionEvent ónotað
      */
-
     @FXML
     protected void onPlayPause(ActionEvent actionEvent) {
         // ef player-inn er spilandi
@@ -121,7 +119,6 @@ public class ListiController  {
      *
      * @param actionEvent ónotað
      */
-
     @FXML
     protected void onHeim(ActionEvent actionEvent) {
         // stoppaðu player ef hann er ekki null
@@ -146,7 +143,6 @@ public class ListiController  {
     /**
      * Spila lagið
      */
-
     private void spilaLag() {
         setjaMynd(fxPlayPauseView, PAUSE);
         // Búa til nýjan player
@@ -163,7 +159,6 @@ public class ListiController  {
      * @param fxImageView viðmótshluturinn sem á að uppfærast
      * @param nafnMynd    nafn á myndinni
      */
-
     private void setjaMynd(ImageView fxImageView, String nafnMynd) {
         System.out.println ("nafn á mynd "+nafnMynd);
         fxImageView.setImage(new Image(getClass().getResource(nafnMynd).toExternalForm()));
@@ -173,7 +168,6 @@ public class ListiController  {
      * Setja upp player fyrir lagið, þ.m.t. at setja handler á hvenær lagið stoppar og tengja
      * lagið við progress bar
      */
-
     private void setjaPlayer() {
         // Stoppa player-inn ef hann var ekki stopp
         if (player != null)
