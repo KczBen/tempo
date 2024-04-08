@@ -253,8 +253,13 @@ public class ListiController  {
      * Næsta lag er spilað. Kallað á þessa aðferð þegar fyrra lag á listanum endar
      */
     private void naestaLag() {
-        // setja valið lag sem næsta lag á núverandi lagalista
-        if (this.shuffle = false)
+        // The setOnEndOfMedia property overrides cycleCount, this prevents the next song from playing when it ends
+        if (player.getCycleCount() != 1)
+        {
+            return;
+        }
+
+        if (this.shuffle == false)
         {
             lagalisti.naesti();
         }
@@ -281,7 +286,6 @@ public class ListiController  {
 
     private void toggleLoop()
     {
-        
         if (player.getCycleCount() == 1)
         {
             player.setCycleCount(MediaPlayer.INDEFINITE);
@@ -334,7 +338,7 @@ public class ListiController  {
 
     private void clearPoints()
     {
-        this.startTime = Duration.ZERO;
+        this.startTime = Duration.millis(0);
         this.stopTime = new Duration(validLag.getLengd());
     }
 
@@ -370,6 +374,8 @@ public class ListiController  {
 
     @FXML
     public void onNextSong(ActionEvent actionEvent) {
+        // Need to first stop looping
+        player.setCycleCount(1);
         naestaLag();
     }
 
