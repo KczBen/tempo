@@ -193,11 +193,14 @@ public class ListiController  {
         fxVolumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (player != null) {
                 player.setVolume(newVal.doubleValue() / 100);
-                if (player.getVolume() > 0) {
-                    isMuted = false;
+
+                boolean volumeEkkiNull = newVal.doubleValue() > 0;
+                isMuted = !volumeEkkiNull;
+                fxMuteIcon.setDisable(!volumeEkkiNull);
+
+                if (volumeEkkiNull) {
                     uppfaeraMuteIcon(MUTE);
                 } else {
-                    isMuted = true;
                     uppfaeraMuteIcon(UNMUTE);
                 }
             }
