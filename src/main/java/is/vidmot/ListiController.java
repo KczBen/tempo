@@ -16,7 +16,6 @@ import is.vinnsla.Lagalistar;
 import is.vinnsla.Lagalisti;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
@@ -52,10 +51,6 @@ public class ListiController  {
     protected Slider fxVolumeSlider;
     @FXML
     protected ImageView fxMuteIcon;
-    @FXML
-    public Label fxUpphafstimi;
-    @FXML
-    public Label fxLokatimi;
 
     // vinnslan
     private Lagalisti lagalisti; // lagalistinn
@@ -188,8 +183,6 @@ public class ListiController  {
         // setja listener tengingu á milli player og progress bar
         player.currentTimeProperty().addListener((observable, old, newValue) ->
                 fxProgressBar.setProgress(newValue.divide(validLag.getLengd()).toMillis()));
-        fxLokatimi.setText(player.getTotalDuration().toString());
-        fxUpphafstimi.setText(player.getStartTime().toString());
     }
 
     /**
@@ -332,22 +325,17 @@ public class ListiController  {
     private void setStart()
     {
         this.startTime = player.getCurrentTime();
-        // Probably not the prettiest, can't check how it looks because JavaFX is broken
-        fxUpphafstimi.setText(this.startTime.toString());
     }
 
     private void setStop()
     {
         this.stopTime = player.getCurrentTime();
-        fxLokatimi.setText(this.stopTime.toString());
     }
 
     private void clearPoints()
     {
         this.startTime = Duration.ZERO;
         this.stopTime = new Duration(validLag.getLengd());
-        fxUpphafstimi.setText("--:--");
-        fxLokatimi.setText("--:--");
     }
 
     @FXML
