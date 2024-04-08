@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -18,9 +19,9 @@
 <!-- Icon by sonnycandra https://www.freepik.com/icon/shuffle_11305528#fromView=search&page=1&position=60&uuid=2173334d-76ca-4738-a090-85adc9ab38c9" -->
 <!---->
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@css/player.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="is.vidmot.ListiController">
+<AnchorPane prefHeight="460.0" prefWidth="600.0" stylesheets="@css/player.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="is.vidmot.ListiController">
     <children>
-        <HBox prefHeight="320.0" prefWidth="600.0" spacing="30.0">
+        <HBox alignment="CENTER" prefHeight="320.0" prefWidth="600.0" spacing="30.0" AnchorPane.rightAnchor="0.0">
             <children>
                 <VBox prefHeight="106.0" prefWidth="214.0">
                     <children>
@@ -67,7 +68,7 @@
                 </VBox>
             </children>
         </HBox>
-        <GridPane layoutX="10.0" layoutY="307.0" prefHeight="90.0" prefWidth="584.0">
+        <GridPane alignment="CENTER" layoutX="10.0" layoutY="353.0" prefHeight="90.0" prefWidth="584.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -115,33 +116,50 @@
                 <ProgressBar fx:id="fxProgressBar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="496.0" progress="0.03" GridPane.columnSpan="5" GridPane.rowIndex="1" />
                 <Label text="Upphafstími" GridPane.rowIndex="2" />
                 <Label alignment="TOP_RIGHT" prefHeight="17.0" prefWidth="131.0" text="Lokatími" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onPlayPause" prefHeight="30.0" prefWidth="143.0" styleClass="image-button" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                    <graphic>
-                        <ImageView fx:id="fxPlayPauseView" fitHeight="20" fitWidth="20.0">
-                            <image>
-                                <Image url="@images/pause.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
-                <Button alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" onAction="#onPrevSong" prefHeight="30" prefWidth="144.0" styleClass="image-button" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                    <graphic>
-                        <ImageView fx:id="fxPrevSong" fitHeight="20" fitWidth="20">
-                            <image>
-                                <Image url="@images/prev.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
-                <Button alignment="CENTER" contentDisplay="RIGHT" onAction="#onNextSong" prefHeight="30" prefWidth="26" styleClass="image-button" GridPane.columnIndex="3" GridPane.rowIndex="2">
-                    <graphic>
-                        <ImageView fx:id="fxNextSong" fitHeight="20" fitWidth="20">
-                            <image>
-                                <Image url="@images/next.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
+            <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="600.0" spacing="10.0" GridPane.columnIndex="1" GridPane.columnSpan="2">
+               <children>
+                  <ImageView fx:id="fxMuteIcon" fitHeight="25.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/volume.png" />
+                     </image>
+                  </ImageView>
+                  <Slider fx:id="fxVolumeSlider" prefWidth="160.0" />
+               </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </HBox>
+            <HBox prefHeight="30.0" prefWidth="149.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <children>
+                      <Button alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" onAction="#onPrevSong" prefHeight="30" prefWidth="59.0" styleClass="image-button">
+                          <graphic>
+                              <ImageView fx:id="fxPrevSong" fitHeight="20" fitWidth="20">
+                                  <image>
+                                      <Image url="@images/prev.png" />
+                                  </image>
+                              </ImageView>
+                          </graphic>
+                      </Button>
+                      <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onPlayPause" prefHeight="30.0" prefWidth="63.0" styleClass="image-button">
+                          <graphic>
+                              <ImageView fx:id="fxPlayPauseView" fitHeight="20" fitWidth="20.0">
+                                  <image>
+                                      <Image url="@images/pause.png" />
+                                  </image>
+                              </ImageView>
+                          </graphic>
+                      </Button>
+                      <Button alignment="CENTER" contentDisplay="RIGHT" onAction="#onNextSong" prefHeight="30" prefWidth="26" styleClass="image-button">
+                          <graphic>
+                              <ImageView fx:id="fxNextSong" fitHeight="20" fitWidth="20">
+                                  <image>
+                                      <Image url="@images/next.png" />
+                                  </image>
+                              </ImageView>
+                          </graphic>
+                      </Button>
+               </children>
+            </HBox>
             </children>
         </GridPane>
     </children>
