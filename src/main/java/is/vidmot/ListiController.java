@@ -186,7 +186,7 @@ public class ListiController  {
     }
 
     /**
-     * Setur upp virkni fyrir hljóðstyrkinn innan silderins.
+     * Setur upp virkni fyrir hljóðstyrkinn innan sildersins.
      */
     private void setjaVolume() {
         fxVolumeSlider.setValue(setbackVol);

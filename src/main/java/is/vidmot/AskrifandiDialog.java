@@ -1,7 +1,7 @@
 package is.vidmot;
 /******************************************************************************
- *  Nafn    : Ebba Þóra Hvannberg
- *  T-póstur: ebba@hi.is
+ *  Nafn    :
+ *  T-póstur:
  *  Viðmótsforritun 2024
  *
  *  Dialog modal til að fá nafn áskrifanda
@@ -59,7 +59,6 @@ public class AskrifandiDialog extends Dialog<Askrifandi> {
      * @return
      */
     private DialogPane lesaDialog() {
-
         FXMLLoader fxmlLoader = new FXMLLoader(AskrifandiDialog.class.getResource(View.ASKRIFANDI.getFileName()));
         try {
             fxmlLoader.setController(this); // setur þennan hlut sem controller

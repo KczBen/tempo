@@ -1,7 +1,7 @@
 package is.vinnsla;
 /******************************************************************************
- *  Nafn    : Ebba Þóra Hvannberg
- *  T-póstur: ebba@hi.is
+ *  Nafn    :
+ *  T-póstur:
  *  Viðmótsforritun 2024
  *
  * Vinnsluklasi fyrir lagalista. Lagalisti getur haft lista af Lag
@@ -24,6 +24,12 @@ public class Lagalisti {
 
     // núverandi lag
     private int index = 0;
+
+    // staðsetning myndarinnar fyrir lagalistann
+    private String imgPath;
+
+    // setja nafn lagalistans
+    private String nafnLagalistans;
 
     /**
      * Lesa skrá með eiginleikum laga og búa til lög
@@ -83,5 +89,20 @@ public class Lagalisti {
 
     public int getIndex() {
         return index;
+    }
+
+    public void setNafnLagalistans(String nafnLagalistans) {
+        this.nafnLagalistans = nafnLagalistans;
+    }
+
+    public String getNafnLagalistans() {
+        return nafnLagalistans;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
+    public String getImgPath() {
+        return imgPath;
     }
 }
