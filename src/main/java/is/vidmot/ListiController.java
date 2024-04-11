@@ -16,6 +16,7 @@ import is.vinnsla.Lagalistar;
 import is.vinnsla.Lagalisti;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
@@ -54,6 +55,10 @@ public class ListiController  {
     protected Slider fxVolumeSlider;
     @FXML
     protected ImageView fxMuteIcon;
+    @FXML
+    protected Label fxStartTime;
+    @FXML
+    protected Label fxStopTime;
 
     // vinnslan
     private Lagalisti lagalisti; // lagalistinn
@@ -338,19 +343,24 @@ public class ListiController  {
         }
     }
 
-    private void setStart()
+    private void setPoint()
     {
-        this.startTime = player.getCurrentTime();
-    }
+        if (player.getCurrentTime().lessThan(this.startTime) || this.startTime == Duration.ZERO)
+        {
+            this.startTime = player.getCurrentTime();
+            fxStartTime.setText(player.getCurrentTime().toString());
+        }
 
-    private void setStop()
-    {
-        this.stopTime = player.getCurrentTime();
+        else
+        {
+            this.stopTime = player.getCurrentTime();
+            fxStartTime.setText(player.getCurrentTime().toString());
+        }
     }
 
     private void clearPoints()
     {
-        this.startTime = Duration.millis(0);
+        this.startTime = Duration.ZERO;
         this.stopTime = new Duration(validLag.getLengd());
     }
 
@@ -361,15 +371,9 @@ public class ListiController  {
     }
 
     @FXML
-    public void onSetStart(ActionEvent actionEvent)
+    public void onSetPoint(ActionEvent actionEvent)
     {
-        setStart();
-    }
-
-    @FXML
-    public void onSetStop(ActionEvent actionEvent)
-    {
-        setStop();
+        setPoint();
     }
 
     @FXML
