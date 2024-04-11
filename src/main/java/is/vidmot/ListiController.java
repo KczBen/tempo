@@ -343,20 +343,18 @@ public class ListiController  {
         }
     }
 
-    private void setPoint()
+    private void setStart()
     {
-        if (player.getCurrentTime().lessThan(this.startTime) || this.startTime == Duration.ZERO)
-        {
-            this.startTime = player.getCurrentTime();
-            fxStartTime.setText(player.getCurrentTime().toString());
-        }
-
-        else
-        {
-            this.stopTime = player.getCurrentTime();
-            fxStartTime.setText(player.getCurrentTime().toString());
-        }
+        this.startTime = player.getCurrentTime();
+        fxStartTime.setText(player.getCurrentTime().toString());
     }
+
+    private void setStop()
+    {
+        this.stopTime = player.getCurrentTime();
+        fxStartTime.setText(player.getCurrentTime().toString());
+    }
+
 
     private void clearPoints()
     {
@@ -371,9 +369,15 @@ public class ListiController  {
     }
 
     @FXML
-    public void onSetPoint(ActionEvent actionEvent)
+    public void onSetStart(ActionEvent actionEvent)
     {
-        setPoint();
+        setStart();
+    }
+
+    @FXML
+    public void onSetStop(ActionEvent actionEvent)
+    {
+        setStop();
     }
 
     @FXML
