@@ -24,6 +24,8 @@ public class PlayerApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(PlayerApplication.class.getResource("heima-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 540);
 
+        scene.getStylesheets().add(PlayerApplication.class.getResource("/is/vidmot/css/lightMode.css").toExternalForm());
+
         ViewSwitcher.setScene(scene);
         ViewSwitcher.switchTo(View.HEIMA, true);
 

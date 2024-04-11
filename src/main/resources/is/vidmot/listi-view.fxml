@@ -19,7 +19,7 @@
 <!-- Icon by sonnycandra https://www.freepik.com/icon/shuffle_11305528#fromView=search&page=1&position=60&uuid=2173334d-76ca-4738-a090-85adc9ab38c9" -->
 <!---->
 
-<AnchorPane prefHeight="540.0" prefWidth="600.0" stylesheets="@css/player.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="is.vidmot.ListiController">
+<AnchorPane prefHeight="540.0" prefWidth="600.0" stylesheets="@css/lightMode.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="is.vidmot.ListiController">
     <children>
         <HBox alignment="CENTER" prefHeight="350.0" prefWidth="600.0" spacing="20.0" AnchorPane.rightAnchor="0.0">
             <children>
@@ -41,31 +41,31 @@
                         <Insets top="38.0" />
                     </HBox.margin>
                 </ImageView>
-                <VBox prefHeight="100.0" prefWidth="0.0">
-                    <children>
-                        <Button mnemonicParsing="false" onAction="#onHeim" prefHeight="40.0" prefWidth="40.0" styleClass="image-button">
+            <HBox prefHeight="63.0" prefWidth="114.0">
+               <children>
+                        <Button mnemonicParsing="false" onAction="#switchMode" prefHeight="30.0" prefWidth="30.0" styleClass="image-button">
                             <graphic>
-                                <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@images/home.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                        </Button>
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" styleClass="image-button">
-                            <graphic>
-                                <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@images/dark.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-                    </children>
-                    <HBox.margin>
-                        <Insets bottom="20.0" right="20.0" top="20.0" />
-                    </HBox.margin>
-                </VBox>
+                        <Button mnemonicParsing="false" onAction="#onHeim" prefHeight="30.0" prefWidth="30.0" styleClass="image-button">
+                            <graphic>
+                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@images/home.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+               </children>
+               <HBox.margin>
+                  <Insets top="15.0" />
+               </HBox.margin>
+            </HBox>
             </children>
         </HBox>
       <HBox alignment="CENTER_RIGHT" layoutX="-2.0" layoutY="363.0" prefHeight="40.0" prefWidth="600.0" spacing="10.0">
@@ -98,19 +98,17 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="26.0" styleClass="image-button">
-                    <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@images/shuffle.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
                 <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="4">
                     <children>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="26.0" styleClass="image-button">
-                            <graphic>
+                        <Button mnemonicParsing="false" onAction="#onShuffle" prefHeight="30.0" prefWidth="26.0" styleClass="image-button">                          <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@images/shuffle.png" />
+                                  </image>
+                              </ImageView>
+                          </graphic>
+                      </Button>
+                            <Button mnemonicParsing="false" onAction="#onLoop" prefHeight="30.0" prefWidth="26.0" styleClass="image-button">                            <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@images/reaplaysong.png" />
@@ -118,7 +116,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="26.0" styleClass="image-button">
+                        <Button mnemonicParsing="false" onAction="#onClearPoints" prefHeight="30.0" prefWidth="26.0" styleClass="image-button">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -130,8 +128,8 @@
                     </children>
                 </HBox>
                 <ProgressBar fx:id="fxProgressBar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="500.0" progress="0.03" GridPane.columnSpan="5" GridPane.rowIndex="1" />
-                <Label text="Upphafstími" GridPane.rowIndex="2" />
-                <Label alignment="TOP_RIGHT" prefHeight="17.0" prefWidth="131.0" text="Lokatími" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                <Label fx:id="fxStartTime" onMouseClicked="#onSetStart" text="Upphafstími" GridPane.rowIndex="2" />
+                <Label fx:id="fxStopTime" alignment="TOP_RIGHT" onMouseClicked="#onSetStop" prefHeight="17.0" prefWidth="131.0" text="Lokatími" GridPane.columnIndex="4" GridPane.rowIndex="2" />
             <HBox prefHeight="30.0" prefWidth="149.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <children>
                       <Button alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" onAction="#onPrevSong" prefHeight="30" prefWidth="59.0" styleClass="image-button">

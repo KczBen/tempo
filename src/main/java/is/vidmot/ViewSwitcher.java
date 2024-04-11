@@ -19,7 +19,7 @@ public class ViewSwitcher {
 
     // viðbót fyrir controllers
     private static final Map<View, Object> controllers = new HashMap<>();
-    private static Scene scene;
+    static Scene scene;
 
     public static void setScene(Scene scene) {
         ViewSwitcher.scene = scene;

@@ -16,6 +16,7 @@ import is.vinnsla.Lagalistar;
 import is.vinnsla.Lagalisti;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
@@ -25,6 +26,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import javafx.scene.Scene;
+
+import static is.vidmot.ViewSwitcher.scene;
 
 
 public class ListiController  {
@@ -51,6 +55,10 @@ public class ListiController  {
     protected Slider fxVolumeSlider;
     @FXML
     protected ImageView fxMuteIcon;
+    @FXML
+    protected Label fxStartTime;
+    @FXML
+    protected Label fxStopTime;
 
     // vinnslan
     private Lagalisti lagalisti; // lagalistinn
@@ -59,6 +67,11 @@ public class ListiController  {
     private Boolean shuffle = false; // Don't shuffle by default
     private Duration startTime;
     private Duration stopTime;
+    private boolean lightModeOn = true;
+    private Scene scene;
+
+
+
 
     /**
      * Frumstillir lagalistann og tengir hann við ListView viðmótshlut
@@ -79,6 +92,10 @@ public class ListiController  {
         // virkjar hljóstyrkinn
         setjaVolume();
     }
+
+
+
+
 
     /**
      * Bregðast við músaratburði og spila valið lag
@@ -329,16 +346,19 @@ public class ListiController  {
     private void setStart()
     {
         this.startTime = player.getCurrentTime();
+        fxStartTime.setText(player.getCurrentTime().toString());
     }
 
     private void setStop()
     {
         this.stopTime = player.getCurrentTime();
+        fxStartTime.setText(player.getCurrentTime().toString());
     }
+
 
     private void clearPoints()
     {
-        this.startTime = Duration.millis(0);
+        this.startTime = Duration.ZERO;
         this.stopTime = new Duration(validLag.getLengd());
     }
 
@@ -382,6 +402,21 @@ public class ListiController  {
     @FXML
     public void onPrevSong(ActionEvent actionEvent) {
         fyrraLag();
+    }
+
+    public void setScene(Scene scene){
+        this.scene = scene;
+    }
+
+    public void switchMode(ActionEvent actionEvent) {
+        lightModeOn = !lightModeOn;
+        if(lightModeOn){
+            scene.getStylesheets().clear(); // Clear existing stylesheets
+            scene.getStylesheets().add(PlayerApplication.class.getResource("/is/vidmot/css/lightMode.css").toExternalForm());
+        }else{
+            scene.getStylesheets().clear(); // Clear existing stylesheets
+            scene.getStylesheets().add(PlayerApplication.class.getResource("/is/vidmot/css/darkMode.css").toExternalForm());
+        }
     }
 }
 

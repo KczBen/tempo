@@ -1,0 +1,33 @@
+.image-button {
+-fx-background-color: transparent
+}
+
+.root{
+-fx-background-color: white;
+}
+
+.progress-bar > .track {
+  -fx-text-box-border: lightgray;
+  -fx-control-inner-background: white;
+}
+
+.progress-bar {
+-fx-accent: black;
+}
+
+.list-view {
+    -fx-background-color: lightgray;
+}
+
+.list-view .list-cell:selected {
+    -fx-background-color: gray;
+}
+
+.list-view .list-cell {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+
+.label{
+-fx-text-fill: black;
+}
