@@ -1,8 +1,8 @@
 package is.vinnsla;
 
 /******************************************************************************
- *  Nafn    : Ebba Þóra Hvannberg
- *  T-póstur: ebba@hi.is
+ *  Nafn    :
+ *  T-póstur:
  *  Viðmótsforritun 2024
  *
  *  Vinnsluklasi fyrir Lag. Hefur nafn, lengd, mynd og media (skráaslóð) fyrir lagið

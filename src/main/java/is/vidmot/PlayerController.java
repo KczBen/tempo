@@ -1,7 +1,7 @@
 package is.vidmot;
 /******************************************************************************
- *  Nafn    : Ebba Þóra Hvannberg
- *  T-póstur: ebba@hi.is
+ *  Nafn    :
+ *  T-póstur:
  *  Viðmótsforritun 2024
  *
  *  Controller fyrir forsíðuna
@@ -11,12 +11,16 @@ package is.vidmot;
  *****************************************************************************/
 import is.vinnsla.Askrifandi;
 import is.vinnsla.Lagalistar;
+import is.vinnsla.Lagalisti;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
+import java.util.List;
 import java.util.Optional;
 
 public class PlayerController  {
@@ -28,9 +32,44 @@ public class PlayerController  {
     @FXML
     protected Button fxAskrifandi;
 
+    @FXML
+    private GridPane fxListarNotandans;
+
+    @FXML
+    private Button fxBuaTilLagalista;
+
     // frumstilling eftir að hlutur hefur verið smíðaður og .fxml skrá lesin
     public void initialize() {
         Lagalistar.frumstilla();
+        uppfaeraLagalistana();
+    }
+
+    /**
+     * Færir lagalista notandans yfir á borðið.
+     */
+    private void uppfaeraLagalistana() {
+        List<Lagalisti> lagalistar = Lagalistar.getLagalista();
+        int rod, dalkur;
+
+        for (int i = 0; i < lagalistar.size(); ++i) {
+            Lagalisti lagalisti = lagalistar.get(i);
+            ImageView imageView = new ImageView(new Image(lagalisti.getImgPath()));
+            imageView.setFitHeight(50);
+            imageView.setFitWidth(100);
+
+            // imageView.setCursor(Cursor.HAND);
+            imageView.setOnMouseClicked(event -> {
+                int j = GridPane.getRowIndex((Node) event.getSource());
+                int k = GridPane.getColumnIndex((Node) event.getSource());
+                Lagalistar.setIndex(j * 2 + k);
+
+                ViewSwitcher.switchTo(View.LAGALISTI, false);
+            });
+
+            rod = i / 2;
+            dalkur = i % 2;
+            fxListarNotandans.add(imageView, dalkur, rod);
+        }
     }
 
     /**
@@ -61,5 +100,20 @@ public class PlayerController  {
         // Ef fékkst svar úr dialognum setjum við nafnið á áskrifandanum í notendaviðmótið
         utkoma.ifPresent (a -> {
             fxAskrifandi.setText(a.getNafn());});
+    }
+
+    /**
+     * Virkjar alla lagalistana.
+     *
+     * @param event
+     */
+    @FXML
+    protected void onBuaTilLagalista(ActionEvent event) {
+        LagalistiDialog dialog = new LagalistiDialog();
+        Optional<Lagalisti> utkoma = dialog.showAndWait();
+        utkoma.ifPresent(lagalisti -> {
+            Lagalistar.baetaALista(lagalisti);
+            uppfaeraLagalistana();
+        });
     }
 }

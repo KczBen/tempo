@@ -6,7 +6,8 @@ package is.vidmot;
 public enum View {
     HEIMA("heima-view.fxml"),
     LAGALISTI("listi-view.fxml"),
-    ASKRIFANDI("askrifandi-view.fxml");
+    ASKRIFANDI("askrifandi-view.fxml"),
+    NYRLAGALISTI("nyrlagalisti-view.fxml");
 
     private final String fileName;
 
