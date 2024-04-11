@@ -404,11 +404,10 @@ public class ListiController  {
         fyrraLag();
     }
 
-    public void setScene(Scene scene){
-        this.scene = scene;
-    }
+
 
     public void switchMode(ActionEvent actionEvent) {
+        Scene scene = ViewSwitcher.getScene();
         lightModeOn = !lightModeOn;
         if(lightModeOn){
             scene.getStylesheets().clear(); // Clear existing stylesheets
