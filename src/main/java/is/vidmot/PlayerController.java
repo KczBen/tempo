@@ -132,15 +132,5 @@ public class PlayerController  {
         });
     }
 
-    public void switchMode(ActionEvent actionEvent) {
-        Scene scene = ViewSwitcher.getScene();
-        lightModeOn = !lightModeOn;
-        if(lightModeOn){
-            scene.getStylesheets().clear(); // Clear existing stylesheets
-            scene.getStylesheets().add(PlayerApplication.class.getResource("/is/vidmot/css/lightMode.css").toExternalForm());
-        }else{
-            scene.getStylesheets().clear(); // Clear existing stylesheets
-            scene.getStylesheets().add(PlayerApplication.class.getResource("/is/vidmot/css/darkMode.css").toExternalForm());
-        }
-    }
+
 }
