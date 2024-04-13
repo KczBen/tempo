@@ -1,6 +1,12 @@
-.image-button {
+.button{
 -fx-background-color: gray;
 }
+
+.image-button-playlist{
+-fx-background-color: transparent;
+}
+
+
 
 .root{
 -fx-background-color: #2b2b2b;
