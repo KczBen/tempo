@@ -48,27 +48,31 @@ public class PlayerController  {
      * Færir lagalista notandans yfir á borðið.
      */
     private void uppfaeraLagalistana() {
-        List<Lagalisti> lagalistar = Lagalistar.getLagalista();
+        Lagalisti lagalistar[] = Lagalistar.getAllaLista();
         int rod, dalkur;
 
-        for (int i = 0; i < lagalistar.size(); ++i) {
-            Lagalisti lagalisti = lagalistar.get(i);
-            ImageView imageView = new ImageView(new Image(lagalisti.getImgPath()));
-            imageView.setFitHeight(50);
-            imageView.setFitWidth(100);
+        for (int i = 4; i < lagalistar.length; ++i) {
+            Lagalisti lagalisti = lagalistar[i];
 
-            // imageView.setCursor(Cursor.HAND);
-            imageView.setOnMouseClicked(event -> {
-                int j = GridPane.getRowIndex((Node) event.getSource());
-                int k = GridPane.getColumnIndex((Node) event.getSource());
-                Lagalistar.setIndex(j * 2 + k);
+            if (lagalisti != null) {
+                ImageView imageView = new ImageView(new Image(lagalisti.getImgPath()));
+                imageView.setFitHeight(50);
+                imageView.setFitWidth(100);
 
-                ViewSwitcher.switchTo(View.LAGALISTI, false);
-            });
+                // imageView.setCursor(Cursor.HAND);
+                imageView.setOnMouseClicked(event -> {
+                    Node node = (Node) event.getSource();
+                    int j = GridPane.getRowIndex(node);
+                    int k = GridPane.getColumnIndex(node);
+                    Lagalistar.setIndex(j * 2 + k);
 
-            rod = i / 2;
-            dalkur = i % 2;
-            fxListarNotandans.add(imageView, dalkur, rod);
+                    ViewSwitcher.switchTo(View.LAGALISTI, false);
+                });
+
+                rod = i / 2;
+                dalkur = i % 2;
+                fxListarNotandans.add(imageView, dalkur, rod);
+            }
         }
     }
 
