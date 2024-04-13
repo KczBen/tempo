@@ -50,6 +50,8 @@ public class ListiController  {
     @FXML
     protected ListView<Lag> fxListView; // lagalistinn
     @FXML
+    protected Label fxNafnLagalistans;
+    @FXML
     protected ImageView fxMyndLagView;    // mynd fyrir lagið
     @FXML
     protected Slider fxVolumeSlider;
@@ -81,21 +83,36 @@ public class ListiController  {
         lagalisti = Lagalistar.getNuverandi();
         // tengdu lagalistann við ListView-ið
         fxListView.setItems(lagalisti.getListi());
-        // man hvaða lag var síðast spilað á lagalistanum og setur það sem valið stak á ListView
-        fxListView.getSelectionModel().select(lagalisti.getIndex());
-        // setur lagið í focus
-        fxListView.requestFocus();
-        // // Lætur lagalista vita hvert valda lagið er í viðmótinu og uppfærir myndina fyrir lagið
-        veljaLag();
-        // setur upp player
-        setjaPlayer();
-        // virkjar hljóstyrkinn
-        setjaVolume();
+
+        if (!lagalisti.getListi().isEmpty()) {
+            fxNafnLagalistans.setText(lagalisti.getNafnLagalistans());
+            // man hvaða lag var síðast spilað á lagalistanum og setur það sem valið stak á ListView
+            fxListView.getSelectionModel().select(lagalisti.getIndex());
+            // setur lagið í focus
+            fxListView.requestFocus();
+            // // Lætur lagalista vita hvert valda lagið er í viðmótinu og uppfærir myndina fyrir lagið
+            veljaLag();
+            // setur upp player
+            setjaPlayer();
+            // virkjar hljóstyrkinn
+            setjaVolume();
+
+            // Það þarf að uppfæra þetta þegar búið er að bæta við nýju lagi á þennan tóma lagalista
+        } else {
+            fxNafnLagalistans.setText(lagalisti.getNafnLagalistans());
+            fxMyndLagView.setImage(new Image(getClass().getResource("media/default.jpg").toExternalForm()));
+
+            // slökkva á alla virkni (á meðan það eru engin lög á lagalistanum en það þarf að bæta við þessum skilyrðum)
+            fxListView.setDisable(true);
+            fxPlayPauseView.setDisable(true);
+            fxProgressBar.setDisable(true);
+            fxMuteIcon.setDisable(true);
+            fxVolumeSlider.setDisable(true);
+
+            fxStartTime.setDisable(true);
+            fxStopTime.setDisable(true);
+        }
     }
-
-
-
-
 
     /**
      * Bregðast við músaratburði og spila valið lag
@@ -129,8 +146,6 @@ public class ListiController  {
         }
     }
 
-
-
     /**
      * Fara aftur í heima view. Ef spilari er til stöðva spilarann
      *
@@ -149,12 +164,16 @@ public class ListiController  {
      * Lætur laga lista vita hvert valda lagið er. Uppfærir myndina fyrir lagið.
      */
     private void veljaLag() {
-        // hvaða lag er valið
-        validLag = fxListView.getSelectionModel().getSelectedItem();
-        //  láttu lagalista vita um indexinn á völdu lagi
-        lagalisti.setIndex(fxListView.getSelectionModel().getSelectedIndex());
-        // uppfæra myndina fyrir lagið
-        setjaMynd(fxMyndLagView, validLag.getMynd());
+        if (!fxListView.getItems().isEmpty()) {
+            // hvaða lag er valið
+            validLag = fxListView.getSelectionModel().getSelectedItem();
+            if (validLag != null) {
+                //  láttu lagalista vita um indexinn á völdu lagi
+                lagalisti.setIndex(fxListView.getSelectionModel().getSelectedIndex());
+                // uppfæra myndina fyrir lagið
+                setjaMynd(fxMyndLagView, validLag.getMynd());
+            }
+        }
     }
 
     /**
@@ -315,7 +334,7 @@ public class ListiController  {
                 {
                     player.seek(startTime);
                 }
-    
+
                 player.setStartTime(this.startTime);
                 player.setStopTime(this.stopTime);
             }
@@ -419,5 +438,3 @@ public class ListiController  {
         }
     }
 }
-
-
