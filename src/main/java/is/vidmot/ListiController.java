@@ -11,6 +11,7 @@ package is.vidmot;
  *  -- play / pause
  *  -- farið heim
  *****************************************************************************/
+import is.vinnsla.Askrifandi;
 import is.vinnsla.Lag;
 import is.vinnsla.Lagalistar;
 import is.vinnsla.Lagalisti;
@@ -27,6 +28,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import javafx.scene.Scene;
+
+import java.util.Optional;
 
 import static is.vidmot.ViewSwitcher.scene;
 
@@ -70,7 +73,7 @@ public class ListiController  {
     private Duration startTime;
     private Duration stopTime;
     private boolean lightModeOn = true;
-    private Scene scene;
+
 
 
 
@@ -423,11 +426,10 @@ public class ListiController  {
         fyrraLag();
     }
 
-    public void setScene(Scene scene){
-        this.scene = scene;
-    }
+
 
     public void switchMode(ActionEvent actionEvent) {
+        Scene scene = ViewSwitcher.getScene();
         lightModeOn = !lightModeOn;
         if(lightModeOn){
             scene.getStylesheets().clear(); // Clear existing stylesheets
@@ -437,4 +439,19 @@ public class ListiController  {
             scene.getStylesheets().add(PlayerApplication.class.getResource("/is/vidmot/css/darkMode.css").toExternalForm());
         }
     }
+
+
+    public void openAddSong(ActionEvent actionEvent) {
+
+        LagDialog dialog = new LagDialog();
+
+
+        Optional<Lag> utkoma = dialog.showAndWait();
+
+
+
+    }
 }
+
+
+

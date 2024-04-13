@@ -7,7 +7,9 @@ public enum View {
     HEIMA("heima-view.fxml"),
     LAGALISTI("listi-view.fxml"),
     ASKRIFANDI("askrifandi-view.fxml"),
-    NYRLAGALISTI("nyrlagalisti-view.fxml");
+    NYRLAGALISTI("nyrlagalisti-view.fxml"),
+
+    NYTTLAG("addsong-view.fxml");
 
     private final String fileName;
 

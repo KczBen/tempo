@@ -25,6 +25,10 @@ public class ViewSwitcher {
         ViewSwitcher.scene = scene;
     }
 
+    public static Scene getScene(){
+        return scene;
+    }
+
     public static void switchTo(View view, boolean isCache) {
         if (scene == null) {
             System.out.println("No scene was set");
