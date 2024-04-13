@@ -68,7 +68,7 @@ public class ListiController  {
     private Duration startTime;
     private Duration stopTime;
     private boolean lightModeOn = true;
-    private Scene scene;
+
 
 
 

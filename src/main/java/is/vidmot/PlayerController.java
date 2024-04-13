@@ -14,6 +14,7 @@ import is.vinnsla.Lagalistar;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
@@ -23,6 +24,8 @@ public class PlayerController  {
 
     // fastar
     public static final String ASKRIFANDI = "Áskrifandi";
+
+    private boolean lightModeOn = true;
 
     // viðmótshlutir
     @FXML
@@ -61,5 +64,17 @@ public class PlayerController  {
         // Ef fékkst svar úr dialognum setjum við nafnið á áskrifandanum í notendaviðmótið
         utkoma.ifPresent (a -> {
             fxAskrifandi.setText(a.getNafn());});
+    }
+
+    public void switchMode(ActionEvent actionEvent) {
+        Scene scene = ViewSwitcher.getScene();
+        lightModeOn = !lightModeOn;
+        if(lightModeOn){
+            scene.getStylesheets().clear(); // Clear existing stylesheets
+            scene.getStylesheets().add(PlayerApplication.class.getResource("/is/vidmot/css/lightMode.css").toExternalForm());
+        }else{
+            scene.getStylesheets().clear(); // Clear existing stylesheets
+            scene.getStylesheets().add(PlayerApplication.class.getResource("/is/vidmot/css/darkMode.css").toExternalForm());
+        }
     }
 }
