@@ -74,7 +74,7 @@ public class Lagalisti {
         if (index == 0) {
             index = listi.size() - 1; //fer í aftasta lag á lista svo lendum ekki out of bounds
         }else{
-        index = --index % listi.size();}
+            index = --index % listi.size();}
     }
 
     // get og set aðferðir

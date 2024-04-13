@@ -19,13 +19,15 @@
 <!-- Icon by sonnycandra https://www.freepik.com/icon/shuffle_11305528#fromView=search&page=1&position=60&uuid=2173334d-76ca-4738-a090-85adc9ab38c9" -->
 <!---->
 
+
 <AnchorPane prefHeight="540.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="is.vidmot.ListiController">
+
     <children>
         <HBox alignment="CENTER" prefHeight="350.0" prefWidth="600.0" spacing="20.0" AnchorPane.rightAnchor="0.0">
             <children>
                 <VBox prefHeight="340.0" prefWidth="200.0" spacing="5.0">
                     <children>
-                        <Label prefHeight="40.0" prefWidth="200.0" text="PlaylistName">
+                        <Label fx:id="fxNafnLagalistans" prefHeight="40.0" prefWidth="200.0" text="PlaylistName">
                             <font>
                                 <Font size="24.0" />
                             </font>
