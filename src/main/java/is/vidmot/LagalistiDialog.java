@@ -89,19 +89,4 @@ public class LagalistiDialog extends Dialog<Lagalisti> {
             return null;
         });
     }
-
-    /**
-     * Bætair við lagalistanum á listann af lagalistum og uppfærir
-     * viðmótið samkvæmt því.
-     *
-     * @param event     þegar notandi býr til nýjan lagalista og smellur á "Bæta við"
-     */
-    @FXML
-    private void onNyjanLagalista(ActionEvent event) {
-        LagalistiDialog dialog = new LagalistiDialog();
-        Optional<Lagalisti> result = dialog.showAndWait();
-        result.ifPresent(lagalisti -> {
-            // ...
-        });
-    }
 }
