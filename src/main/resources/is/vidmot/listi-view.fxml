@@ -31,6 +31,18 @@
                             </font>
                         </Label>
                         <ListView fx:id="fxListView" onMouseClicked="#onValidLag" prefHeight="270.0" prefWidth="200.0" />
+                  <Button mnemonicParsing="false" onAction="#openAddSong" styleClass="image-button">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/add-song.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                     </padding>
+                  </Button>
                     </children>
                     <HBox.margin>
                         <Insets bottom="20.0" left="20.0" right="10.0" top="20.0" />
