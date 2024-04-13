@@ -33,7 +33,7 @@ public class Lagalistar {
                 lagalistar[i].setNafnLagalistans("Lagalisti " + (i + 1));
                 System.out.println (lagalistar[i]);
             } catch (IOException e) {
-                System.out.println (SKRA_FANNST_EKKI +i);
+                System.out.println (SKRA_FANNST_EKKI + i);
                 throw new RuntimeException(e);
             }
         }
