@@ -59,8 +59,8 @@ public class PlayerController  {
 
             if (lagalisti != null) {
                 ImageView imageView = new ImageView(new Image(lagalisti.getImgPath()));
-                imageView.setFitHeight(50);
-                imageView.setFitWidth(100);
+                imageView.setFitHeight(70);
+                imageView.setFitWidth(150);
 
                 // imageView.setCursor(Cursor.HAND);
                 imageView.setOnMouseClicked(event -> {
