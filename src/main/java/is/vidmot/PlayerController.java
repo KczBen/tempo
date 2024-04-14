@@ -123,6 +123,12 @@ public class PlayerController  {
      */
     private void endurnefnaLista(int index) {
         TextInputDialog dialog = new TextInputDialog();
+
+        dialog.getDialogPane().getButtonTypes().clear();
+        ButtonType jaTakki = new ButtonType("ÓK", ButtonBar.ButtonData.OK_DONE);
+        ButtonType neiTakki = new ButtonType("Hætta við", ButtonBar.ButtonData.CANCEL_CLOSE);
+        dialog.getDialogPane().getButtonTypes().addAll(jaTakki, neiTakki);
+
         dialog.setTitle("Endurnefna lagalistann");
         dialog.setHeaderText("Sláðu inn nýtt nafn");
 
@@ -145,9 +151,11 @@ public class PlayerController  {
      */
     private void eydaLista(int index) {
         if (index >= 4) {
-            ButtonType jaButton = new ButtonType("Já", ButtonBar.ButtonData.YES);
-            ButtonType neiButton = new ButtonType("Nei", ButtonBar.ButtonData.NO);
-            Alert stadfesta = new Alert(Alert.AlertType.CONFIRMATION, "Eyða?", jaButton, neiButton);
+            ButtonType jaTakki = new ButtonType("Já", ButtonBar.ButtonData.YES);
+            ButtonType neiTakki = new ButtonType("Nei", ButtonBar.ButtonData.NO);
+            Alert stadfesta = new Alert(Alert.AlertType.CONFIRMATION, "Viltu eyða þessum lagalista?", jaTakki, neiTakki);
+            stadfesta.setTitle("Eyða lagalistanum");
+            stadfesta.setHeaderText("Staðfesting");
 
             Optional<ButtonType> utkoma = stadfesta.showAndWait();
             if (utkoma.isPresent() && utkoma.get().getButtonData().equals(ButtonBar.ButtonData.YES)) {
@@ -155,8 +163,10 @@ public class PlayerController  {
                 uppfaeraLagalistana();
             }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Ekki er hægt að eyða sjálfgefnum lagalistum.");
+            ButtonType okTakki = new ButtonType("ÓK", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Ekki er hægt að eyða sjálfgefnum lagalistum.", okTakki);
+            alert.setTitle("Tókst ekki að eyða lagalistanum");
+            alert.setHeaderText("Villa");
             alert.show();
         }
     }
@@ -244,13 +254,19 @@ public class PlayerController  {
      * Dialog gluggi sem birtist ef fjöldi lagalista fer út fyrir.
      */
     private void ekkertPlassDialog() {
-        ButtonType iLagi = new ButtonType("Í lagi", ButtonBar.ButtonData.OK_DONE);
-        Alert alert = new Alert(Alert.AlertType.ERROR,"Eyða?", iLagi);
+        ButtonType iLagiTakki = new ButtonType("Í lagi", ButtonBar.ButtonData.OK_DONE);
+        Alert alert = new Alert(Alert.AlertType.ERROR,"Eyða?", iLagiTakki);
         alert.setTitle("Tókst ekki að búa til lagalistann.");
+        alert.setHeaderText("Villa");
         alert.setContentText("Ekkert pláss fyrir nýjan lagalista. Hámarksfjöldi er 10.");
         alert.showAndWait();
     }
 
+    /**
+     * Skiptir á milli dökks og ljóss þema.
+     *
+     * @param actionEvent
+     */
     public void switchMode(ActionEvent actionEvent) {
         Scene scene = ViewSwitcher.getScene();
         lightModeOn = !lightModeOn;
