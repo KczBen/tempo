@@ -1,13 +1,4 @@
 package is.vinnsla;
-/******************************************************************************
- *  Nafn    :
- *  T-póstur:
- *  Viðmótsforritun 2024
- *
- * Vinnsluklasi fyrir lagalista. Lagalisti getur haft lista af Lag
- * Heldur utan um núverandi lag
- *
- *****************************************************************************/
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,23 +8,25 @@ import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.Scanner;
 
+/******************************************************************************
+ *  Nafn    :
+ *  T-póstur:
+ *  Viðmótsforritun 2024
+ *
+ * Vinnsluklasi fyrir lagalista. Lagalisti getur haft lista af Lag.
+ * Heldur utan um núverandi lag.
+ *
+ *****************************************************************************/
 public class Lagalisti {
-
-    // lagalistinn
-    protected ObservableList<Lag> listi = FXCollections.observableArrayList();
-
-    // núverandi lag
-    private int index = 0;
-
-    // staðsetning myndarinnar fyrir lagalistann
-    private String imgPath;
-
-    // setja nafn lagalistans
-    private String nafnLagalistans;
+    protected ObservableList<Lag> listi = FXCollections.observableArrayList();      // lagalistinn
+    private int index = 0;              // núverandi lag
+    private String imgPath;             // staðsetning myndarinnar fyrir lagalistann
+    private String nafnLagalistans;     // setja nafn lagalistans
 
     /**
-     * Lesa skrá með eiginleikum laga og búa til lög
-     * @param nafnASkra nafn á skrá
+     * Les skrá með eiginleikum laga og búa til lög.
+     *
+     * @param nafnASkra     nafn á skrá
      * @throws IOException
      */
     public void lesaLog(String nafnASkra) throws IOException {
@@ -55,7 +48,7 @@ public class Lagalisti {
     }
 
     /**
-     * index á næsta lag á lagalista
+     * Index á næsta lag á lagalista.
      */
     public void naesti() {
         index = ++index % listi.size();
@@ -68,16 +61,16 @@ public class Lagalisti {
     }
 
     /**
-     * index á fyrra lag á lagalista (Tobba)
+     * Index á fyrra lag á lagalista (Tobba).
      */
     public void fyrri(){
         if (index == 0) {
-            index = listi.size() - 1; //fer í aftasta lag á lista svo lendum ekki out of bounds
+            index = listi.size() - 1;   //fer í aftasta lag á lista svo lendum ekki out of bounds
         }else{
             index = --index % listi.size();}
     }
 
-    // get og set aðferðir
+    // Get og Set aðferðir
 
     public ObservableList<Lag> getListi() {
         return listi;
