@@ -256,7 +256,7 @@ public class PlayerController  {
     private void ekkertPlassDialog() {
         ButtonType iLagiTakki = new ButtonType("Í lagi", ButtonBar.ButtonData.OK_DONE);
         Alert alert = new Alert(Alert.AlertType.ERROR,"Eyða?", iLagiTakki);
-        alert.setTitle("Tókst ekki að búa til lagalistann.");
+        alert.setTitle("Tókst ekki að búa til lagalistann");
         alert.setHeaderText("Villa");
         alert.setContentText("Ekkert pláss fyrir nýjan lagalista. Hámarksfjöldi er 10.");
         alert.showAndWait();
