@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * @author Almas Baimagambetov (almaslvl@gmail.com)
  *
- * EÞH - changed to include caching of controllers
+ * EÞH - changed to include caching of controllers.
  */
 public class ViewSwitcher {
 

@@ -1,13 +1,4 @@
 package is.vidmot;
-/******************************************************************************
- *  Nafn    :
- *  T-póstur:
- *  Viðmótsforritun 2024
- *
- *  Lýsing  : Application klasi fyrir AudioPlayer
- *  Opnar heimasenu (heima-view.fxml)
- *
- *****************************************************************************/
 
 import is.vinnsla.Askrifandi;
 import javafx.application.Application;
@@ -18,6 +9,15 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Optional;
 
+/******************************************************************************
+ *  Nafn    :
+ *  T-póstur:
+ *  Viðmótsforritun 2024
+ *
+ *  Lýsing  : Application klasi fyrir AudioPlayer.
+ *  Opnar heimasenu (heima-view.fxml).
+ *
+ *****************************************************************************/
 public class PlayerApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {

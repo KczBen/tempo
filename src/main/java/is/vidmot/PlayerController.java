@@ -1,75 +1,84 @@
 package is.vidmot;
-/******************************************************************************
- *  Nafn    : Ebba Þóra Hvannberg
- *  T-póstur: ebba@hi.is
- *  Viðmótsforritun 2024
- *
- *  Controller fyrir forsíðuna
- *
- *  Getur valið lagalista
- *
- *****************************************************************************/
 import is.vinnsla.Askrifandi;
 import is.vinnsla.Lagalistar;
 import is.vinnsla.Lagalisti;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/******************************************************************************
+ *  Nafn    :
+ *  T-póstur:
+ *  Viðmótsforritun 2024
+ *
+ *  Controller fyrir forsíðuna
+ *
+ *  Getur valið, búið til, endurnefnt, eytt lagalista.
+ *
+ *****************************************************************************/
 public class PlayerController  {
 
     // fastar
     public static final String ASKRIFANDI = "Áskrifandi";
-
     private boolean lightModeOn = true;
+    private ContextMenu contextMenu;
 
     // viðmótshlutir
     @FXML
     protected Button fxAskrifandi;
-
     @FXML
     private GridPane fxListarNotandans;
-
     @FXML
     private Button fxBuaTilLagalista;
 
-    // frumstilling eftir að hlutur hefur verið smíðaður og .fxml skrá lesin
+    /**
+     * Frumstilling eftir að hlutur hefur verið smíðaður og .fxml skrá lesin.
+     */
     public void initialize() {
         Lagalistar.frumstilla();
         uppfaeraLagalistana();
     }
 
     /**
-     * Færir lagalista notandans yfir á borðið.
+     * Færir og birtir lagalista notandans á heimasíðunni.
      */
     private void uppfaeraLagalistana() {
+        hreinsaReita();
         Lagalisti lagalistar[] = Lagalistar.getAllaLista();
         int rod, dalkur;
 
         for (int i = 4; i < lagalistar.length; ++i) {
             Lagalisti lagalisti = lagalistar[i];
+            final int index = i;
 
             if (lagalisti != null) {
                 ImageView imageView = new ImageView(new Image(lagalisti.getImgPath()));
                 imageView.setFitHeight(70);
                 imageView.setFitWidth(150);
 
-                // imageView.setCursor(Cursor.HAND);
+                //imageView.setCursor(Cursor.HAND);
                 imageView.setOnMouseClicked(event -> {
-                    Node node = (Node) event.getSource();
-                    int j = GridPane.getRowIndex(node);
-                    int k = GridPane.getColumnIndex(node);
-                    Lagalistar.setIndex(j * 2 + k);
+                    if (event.getButton() == MouseButton.PRIMARY) {
+                        Node node = (Node) event.getSource();
+                        int j = GridPane.getRowIndex(node);
+                        int k = GridPane.getColumnIndex(node);
+                        Lagalistar.setIndex(j * 2 + k);
 
-                    ViewSwitcher.switchTo(View.LAGALISTI, false);
+                        ViewSwitcher.switchTo(View.LAGALISTI, false);
+                    } else if (event.getButton() == MouseButton.SECONDARY) {
+                        virkjaContextMenu((Node) event.getSource(), index);
+                    }
                 });
 
                 rod = i / 2;
@@ -77,36 +86,110 @@ public class PlayerController  {
                 fxListarNotandans.add(imageView, dalkur, rod);
             }
         }
+        customBendill();
     }
 
     /**
-     * Atburðarhandler fyrir að velja lagalista. Sá lagalisti er settur og farið í senu fyrir þann lista
-     * @param mouseEvent
-     */
-    @FXML
-    protected void onVeljaLista(ActionEvent mouseEvent) {
-        // hvaða reitur var valinn
-        int i = GridPane.getRowIndex((Node) mouseEvent.getSource());
-        int j = GridPane.getColumnIndex((Node) mouseEvent.getSource());
-        // skiptum yfir í lagalistann í vinnslunni sem var valið
-        Lagalistar.setIndex(i * 2 + j);
-        // skiptum yfir í LAGALISTI view
-        ViewSwitcher.switchTo(View.LAGALISTI, false);
-    }
-
-    /**
-     * Loggar áskrifanda inn
+     * Setur upp context menu fyrir lagalistana.
      *
-     * @param actionEvent
+     * @param node      tilvik af lagalista
+     * @param index     tala sem auðkennir lagalistann
      */
-    public void onLogin(ActionEvent actionEvent) {
-        // býr til nýjan dialog með tómum áskrifanda
-        AskrifandiDialog dialog = new AskrifandiDialog(new Askrifandi(ASKRIFANDI));
-        // sýndu dialoginn
-        Optional<Askrifandi> utkoma = dialog.showAndWait();
-        // Ef fékkst svar úr dialognum setjum við nafnið á áskrifandanum í notendaviðmótið
-        utkoma.ifPresent (a -> {
-            fxAskrifandi.setText(a.getNafn());});
+    private void virkjaContextMenu(Node node, int index) {
+        if (contextMenu != null) {
+            contextMenu.hide();
+        }
+        contextMenu = new ContextMenu();
+
+        MenuItem endurnefnaLista = new MenuItem("Endurnefna");
+        endurnefnaLista.setOnAction(event -> endurnefnaLista(index));
+
+        MenuItem eydaLista = new MenuItem("Eyða");
+        eydaLista.setOnAction(event -> eydaLista(index));
+
+        contextMenu.getItems().addAll(endurnefnaLista, eydaLista);
+        node.setOnContextMenuRequested(event -> contextMenu.show(node, event.getScreenX(), event.getScreenY()));;
+    }
+
+    /**
+     * Endurnefnir lagalistann.
+     *
+     * @param index     tala sem auðkennir lagalistann
+     */
+    private void endurnefnaLista(int index) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Endurnefna lagalistann");
+        dialog.setHeaderText("Sláðu inn nýtt nafn");
+
+        Optional<String> utkoma = dialog.showAndWait();
+        utkoma.ifPresent(nafn -> {
+            if (!nafn.isEmpty()) {
+                Lagalistar.getLagalistann(index).setNafnLagalistans(nafn);
+                uppfaeraLagalistana();
+            } else {
+                Lagalistar.getLagalistann(index).setNafnLagalistans("Nýr lagalisti " + index);
+                uppfaeraLagalistana();
+            }
+        });
+    }
+
+    /**
+     * Eyðir lagalistanum.
+     *
+     * @param index     tala sem auðkennir lagalistann
+     */
+    private void eydaLista(int index) {
+        if (index >= 4) {
+            ButtonType jaButton = new ButtonType("Já", ButtonBar.ButtonData.YES);
+            ButtonType neiButton = new ButtonType("Nei", ButtonBar.ButtonData.NO);
+            Alert stadfesta = new Alert(Alert.AlertType.CONFIRMATION, "Eyða?", jaButton, neiButton);
+
+            Optional<ButtonType> utkoma = stadfesta.showAndWait();
+            if (utkoma.isPresent() && utkoma.get().getButtonData().equals(ButtonBar.ButtonData.YES)) {
+                Lagalistar.eydaLagalista(index);
+                uppfaeraLagalistana();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Ekki er hægt að eyða sjálfgefnum lagalistum.");
+            alert.show();
+        }
+    }
+
+    /**
+     * Býr til lista af reitum sem má eyða og eyðir þeim.
+     */
+    private void hreinsaReita() {
+        List<Node> eyddirLagalistar = new ArrayList<>();
+
+        for (Node node : fxListarNotandans.getChildren()) {
+            Integer rod = GridPane.getRowIndex(node);
+            Integer dalkur = GridPane.getColumnIndex(node);
+
+            if (rod != null && dalkur != null) {
+                if (rod * 2 + dalkur >= 4) {
+                    eyddirLagalistar.add(node);
+                }
+            }
+        }
+        fxListarNotandans.getChildren().removeAll(eyddirLagalistar);
+    }
+
+    private void customBendill() {
+        for (Node node : fxListarNotandans.getChildren()) {
+            node.setCursor(Cursor.HAND);
+        }
+    }
+
+    /**
+     * Dialog gluggi sem birtist ef fjöldi lagalista fer út fyrir.
+     */
+    private void ekkertPlassDialog() {
+        ButtonType iLagi = new ButtonType("Í lagi", ButtonBar.ButtonData.OK_DONE);
+        Alert alert = new Alert(Alert.AlertType.ERROR,"Eyða?", iLagi);
+        alert.setTitle("Tókst ekki að búa til lagalistann.");
+        alert.setContentText("Ekkert pláss fyrir nýjan lagalista. Hámarksfjöldi er 10.");
+        alert.showAndWait();
     }
 
     public void switchMode(ActionEvent actionEvent) {
@@ -122,7 +205,43 @@ public class PlayerController  {
     }
 
     /**
-     * Virkjar alla lagalistana.
+     * Loggar áskrifanda inn.
+     *
+     * @param actionEvent
+     */
+    @FXML
+    public void onLogin(ActionEvent actionEvent) {
+        // býr til nýjan dialog með tómum áskrifanda
+        AskrifandiDialog dialog = new AskrifandiDialog(new Askrifandi(ASKRIFANDI));
+
+        // sýndu dialoginn
+        Optional<Askrifandi> utkoma = dialog.showAndWait();
+
+        // Ef fékkst svar úr dialognum setjum við nafnið á áskrifandanum í notendaviðmótið
+        utkoma.ifPresent (a -> {
+            fxAskrifandi.setText(a.getNafn());});
+    }
+
+    /**
+     * Atburðarhandler fyrir að velja lagalista. Sá lagalisti er settur og farið í senu fyrir þann lista.
+     *
+     * @param mouseEvent
+     */
+    @FXML
+    protected void onVeljaLista(ActionEvent mouseEvent) {
+        // hvaða reitur var valinn
+        int i = GridPane.getRowIndex((Node) mouseEvent.getSource());
+        int j = GridPane.getColumnIndex((Node) mouseEvent.getSource());
+
+        // skiptum yfir í lagalistann í vinnslunni sem var valið
+        Lagalistar.setIndex(i * 2 + j);
+
+        // skiptum yfir í LAGALISTI view
+        ViewSwitcher.switchTo(View.LAGALISTI, false);
+    }
+
+    /**
+     * Virkjar lagalista.
      *
      * @param event
      */
@@ -131,10 +250,10 @@ public class PlayerController  {
         LagalistiDialog dialog = new LagalistiDialog();
         Optional<Lagalisti> utkoma = dialog.showAndWait();
         utkoma.ifPresent(lagalisti -> {
-            Lagalistar.baetaALista(lagalisti);
+            if (!Lagalistar.baetaALista(lagalisti)) {
+                ekkertPlassDialog();
+            }
             uppfaeraLagalistana();
         });
     }
-
-
 }

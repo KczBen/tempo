@@ -1,14 +1,5 @@
 package is.vidmot;
-/******************************************************************************
- *  Nafn    :
- *  T-póstur:
- *  Viðmótsforritun 2024
- *
- *  Controller fyrir forsíðuna
- *
- *  Getur valið lagalista
- *
- *****************************************************************************/
+
 import is.vinnsla.Lagalisti;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,24 +12,32 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
+/******************************************************************************
+ *  Nafn    :
+ *  T-póstur:
+ *  Viðmótsforritun 2024
+ *
+ *  Dialog sem lætur nefna og búa til lagalista svo og velja mynd fyrir
+ *  þann lagalista.
+ *
+ *****************************************************************************/
 public class LagalistiDialog extends Dialog<Lagalisti> {
     private String imgPath;
 
     @FXML
     private TextField fxNafnLagalistans;
-
     @FXML
     private Button fxVeljaMynd;
-
     @FXML
     private Button fxBaetaVidLagalistann;
 
+    /**
+     * Býr til dialog þegar notandi ákveður að búa til lagalista.
+     */
     public LagalistiDialog() {
         DialogPane dialogPane = lesaDialog();
         setDialogPane(lesaDialog());
         setTitle("Nýr lagalisti");
-
-// reserved 1
 
         fxVeljaMynd.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
@@ -49,8 +48,6 @@ public class LagalistiDialog extends Dialog<Lagalisti> {
                 imgPath = (file.toURI().toString());
             }
         });
-// reserved 2
-
         setResultConverter();
     }
 
@@ -70,7 +67,7 @@ public class LagalistiDialog extends Dialog<Lagalisti> {
     }
 
     /**
-     * Færa gögnin úr viðmótshlutum í dialog í vinnsluhlut, aftrar því að gögnin eru tóm.
+     * Færa gögnin úr viðmótshlutum í dialog í vinnsluhlut, aftrar því að gögnin séu tóm.
      */
     private void setResultConverter() {
         setResultConverter(b -> {
