@@ -12,7 +12,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -104,10 +106,13 @@ public class PlayerController  {
         MenuItem endurnefnaLista = new MenuItem("Endurnefna");
         endurnefnaLista.setOnAction(event -> endurnefnaLista(index));
 
+        MenuItem breytaMynd = new MenuItem("Breyta mynd");
+        breytaMynd.setOnAction(event -> breytaMynd(index));
+
         MenuItem eydaLista = new MenuItem("Eyða");
         eydaLista.setOnAction(event -> eydaLista(index));
 
-        contextMenu.getItems().addAll(endurnefnaLista, eydaLista);
+        contextMenu.getItems().addAll(endurnefnaLista, breytaMynd, eydaLista);
         node.setOnContextMenuRequested(event -> contextMenu.show(node, event.getScreenX(), event.getScreenY()));;
     }
 
@@ -154,6 +159,57 @@ public class PlayerController  {
             alert.setContentText("Ekki er hægt að eyða sjálfgefnum lagalistum.");
             alert.show();
         }
+    }
+
+    /**
+     * Breytir mynd lagalistand.
+     *
+     * @param index     tala sem auðkennir lagalista
+     */
+    private void breytaMynd(int index) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Veldu nýja mynd fyrir lagalistann");
+        File file = fileChooser.showOpenDialog(null);
+
+        if (file != null) {
+            String nyttImgPath = (file.toURI().toString());
+            Lagalistar.getLagalistann(index).setImgPath(nyttImgPath);
+            uppfaeraMynd(index, nyttImgPath);
+        }
+    }
+
+    /**
+     * Uppfærir mynd lagalistans.
+     *
+     * @param index             tala sem auðkennir lagalista
+     * @param nyttImgPath       staðsetning nýju myndarinnar
+     */
+    private void uppfaeraMynd(int index, String nyttImgPath) {
+        int rod = index / 2;
+        int dalkur = index % 2;
+
+        Node node = getNodeMyndarinnar(rod, dalkur, fxListarNotandans);
+        if (node instanceof ImageView) {
+            ((ImageView) node).setImage(new Image(nyttImgPath));
+        }
+    }
+
+    /**
+     * Leitar að viðeigandi myndreit lagalistans.
+     *
+     * @param rod       röð myndreitsins
+     * @param dalkur    dalkur myndreitsins
+     * @param grind     GridPane hlutur
+     * @return          viðeigandi node hlutur
+     */
+    private Node getNodeMyndarinnar(int rod, int dalkur, GridPane grind) {
+        for (Node node : grind.getChildren()) {
+            if (GridPane.getRowIndex(node) != null && GridPane.getColumnIndex(node) != null &&
+                    GridPane.getRowIndex(node) == rod && GridPane.getColumnIndex(node) == dalkur) {
+                return node;
+            }
+        }
+        return null;
     }
 
     /**
