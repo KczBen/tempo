@@ -231,6 +231,9 @@ public class PlayerController  {
         fxListarNotandans.getChildren().removeAll(eyddirLagalistar);
     }
 
+    /**
+     * Setur nýjan bendil þegar miðað er á lagalista.
+     */
     private void customBendill() {
         for (Node node : fxListarNotandans.getChildren()) {
             node.setCursor(Cursor.HAND);
