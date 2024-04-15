@@ -69,7 +69,7 @@ public class ListiController  {
     private Lag validLag;       // núverandi valið lag
     private Boolean shuffle = false; // Don't shuffle by default
     private Duration startTime = Duration.ZERO;
-    private Duration stopTime;
+    private Duration stopTime = Duration.INDEFINITE;
     private boolean lightModeOn = true;
 
     /**
@@ -210,7 +210,7 @@ public class ListiController  {
                 fxProgressBar.setProgress(newValue.divide(validLag.getLengd()).toMillis()));
 
         fxStartTime.setText(this.startTime.toString());
-        fxStopTime.setText(player.getTotalDuration().toString());
+        fxStopTime.setText(Integer.toString(validLag.getLengd()));
     }
 
     /**
