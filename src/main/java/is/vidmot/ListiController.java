@@ -68,7 +68,7 @@ public class ListiController  {
     private MediaPlayer player; // ein player breyta per forritið
     private Lag validLag;       // núverandi valið lag
     private Boolean shuffle = false; // Don't shuffle by default
-    private Duration startTime;
+    private Duration startTime = Duration.ZERO;
     private Duration stopTime;
     private boolean lightModeOn = true;
 
@@ -208,6 +208,9 @@ public class ListiController  {
         // setja listener tengingu á milli player og progress bar
         player.currentTimeProperty().addListener((observable, old, newValue) ->
                 fxProgressBar.setProgress(newValue.divide(validLag.getLengd()).toMillis()));
+
+        fxStartTime.setText(this.startTime.toString());
+        fxStopTime.setText(player.getTotalDuration().toString());
     }
 
     /**
@@ -366,8 +369,8 @@ public class ListiController  {
     {
         this.startTime = Duration.ZERO;
         this.stopTime = new Duration(validLag.getLengd());
-        fxStartTime.setText("--:--");
-        fxStopTime.setText("--:--");
+        fxStartTime.setText(this.startTime.toString());
+        fxStopTime.setText(player.getTotalDuration().toString());
     }
 
     @FXML
