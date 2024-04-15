@@ -163,7 +163,7 @@
                 <Label fx:id="fxStopTime" alignment="TOP_RIGHT" onMouseClicked="#onSetStop" prefHeight="17.0" prefWidth="131.0" text="Lokatími" GridPane.columnIndex="4" GridPane.rowIndex="2" />
             <HBox prefHeight="30.0" prefWidth="149.0" spacing="5.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <children>
-                      <Button alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" onAction="#onPrevSong" prefHeight="30" prefWidth="59.0" styleClass="image-button">
+                      <Button alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" onAction="#onSetStart" prefHeight="30" prefWidth="59.0" styleClass="image-button">
                           <graphic>
                               <ImageView fx:id="fxPrevSong" fitHeight="20" fitWidth="20">
                                   <image>
@@ -181,7 +181,7 @@
                               </ImageView>
                           </graphic>
                       </Button>
-                      <Button alignment="CENTER" contentDisplay="RIGHT" onAction="#onNextSong" prefHeight="30" prefWidth="26" styleClass="image-button">
+                      <Button alignment="CENTER" contentDisplay="RIGHT" onAction="#onSetStop" prefHeight="30" prefWidth="26" styleClass="image-button">
                           <graphic>
                               <ImageView fx:id="fxNextSong" fitHeight="20" fitWidth="20">
                                   <image>

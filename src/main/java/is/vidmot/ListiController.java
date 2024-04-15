@@ -311,8 +311,6 @@ public class ListiController  {
     {
         if (player.getCycleCount() == 1)
         {
-            player.setCycleCount(MediaPlayer.INDEFINITE);
-
             // If loop points have been set, loop from there
             if (this.startTime != Duration.ZERO || this.stopTime != new Duration(validLag.getLengd()))
             {
@@ -321,10 +319,11 @@ public class ListiController  {
                 {
                     player.seek(startTime);
                 }
-
+                
                 player.setStartTime(this.startTime);
                 player.setStopTime(this.stopTime);
             }
+            player.setCycleCount(MediaPlayer.INDEFINITE);
         }
 
         else
@@ -358,7 +357,7 @@ public class ListiController  {
     private void setStop()
     {
         this.stopTime = player.getCurrentTime();
-        fxStartTime.setText(player.getCurrentTime().toString());
+        fxStopTime.setText(player.getCurrentTime().toString());
     }
 
 
@@ -366,6 +365,8 @@ public class ListiController  {
     {
         this.startTime = Duration.ZERO;
         this.stopTime = new Duration(validLag.getLengd());
+        fxStartTime.setText("--:--");
+        fxStopTime.setText("--:--");
     }
 
     @FXML
