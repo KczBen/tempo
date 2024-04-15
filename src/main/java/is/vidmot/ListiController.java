@@ -29,6 +29,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import javafx.scene.Scene;
 
+import java.util.List;
 import java.util.Optional;
 
 import static is.vidmot.ViewSwitcher.scene;
@@ -447,6 +448,17 @@ public class ListiController  {
 
 
         Optional<Lag> utkoma = dialog.showAndWait();
+
+
+
+        utkoma.ifPresent (lag -> {
+            try {
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
 
 

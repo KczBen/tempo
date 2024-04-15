@@ -105,4 +105,5 @@ public class Lagalisti {
     public String getImgPath() {
         return imgPath;
     }
+
 }

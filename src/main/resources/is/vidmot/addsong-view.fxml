@@ -14,13 +14,13 @@
          <children>
             <VBox alignment="CENTER" prefHeight="197.0" prefWidth="122.0" spacing="10.0">
                <children>
-                  <Button mnemonicParsing="false" text="Bæta við lagi" onAction="#addsong"/>
+                  <Button mnemonicParsing="false" text="Bæta við lagi" onAction="#fxaddsong"/>
                   <ListView prefHeight="200.0" prefWidth="200.0" />
                </children>
             </VBox>
             <VBox alignment="CENTER" prefHeight="176.0" prefWidth="161.0" spacing="10.0">
                <children>
-                  <Button mnemonicParsing="false" text="Bæta við mynd" />
+                  <Button mnemonicParsing="false" text="Bæta við mynd" onAction="fxaddphoto" />
                   <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </VBox>
