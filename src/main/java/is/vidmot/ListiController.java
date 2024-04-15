@@ -6,6 +6,7 @@ import is.vinnsla.Lagalistar;
 import is.vinnsla.Lagalisti;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
@@ -58,9 +59,9 @@ public class ListiController  {
     @FXML
     protected ImageView fxMuteIcon;
     @FXML
-    protected Label fxStartTime;
+    protected Button fxStartTime;
     @FXML
-    protected Label fxStopTime;
+    protected Button fxStopTime;
 
     // vinnslan
     private Lagalisti lagalisti; // lagalistinn
