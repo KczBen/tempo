@@ -209,6 +209,7 @@ public class ListiController  {
         player.currentTimeProperty().addListener((observable, old, newValue) ->
                 fxProgressBar.setProgress(newValue.divide(validLag.getLengd()).toMillis()));
 
+        // TODO: Display time in hh:mm:ss format
         fxStartTime.setText(this.startTime.toString());
         fxStopTime.setText(Integer.toString(validLag.getLengd()));
     }
@@ -355,12 +356,14 @@ public class ListiController  {
     private void setStart()
     {
         this.startTime = player.getCurrentTime();
+        // TODO: Display time in hh:mm:ss format - additionally milliseconds
         fxStartTime.setText(player.getCurrentTime().toString());
     }
 
     private void setStop()
     {
         this.stopTime = player.getCurrentTime();
+        // TODO: Display time in hh:mm:ss format - additionally milliseconds
         fxStopTime.setText(player.getCurrentTime().toString());
     }
 
