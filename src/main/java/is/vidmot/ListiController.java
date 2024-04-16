@@ -223,8 +223,7 @@ public class ListiController {
 
         // setja listener tengingu á milli player og progress bar
         player.currentTimeProperty().addListener((observable, old, newValue) -> {
-            fxProgressBar
-                    .setProgress(newValue.divide(validLag.getLengd()).toMillis());
+            fxProgressBar.setProgress(newValue.divide(validLag.getLengd()).toMillis());
             fxCurrentTime.setText(TimeConverter.convertTime(player.getCurrentTime(), false));
         });
 
