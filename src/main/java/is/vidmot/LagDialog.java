@@ -79,18 +79,23 @@ public class LagDialog extends Dialog<Lag> {
         setResultConverter(b -> {
             if (b.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
 
-                String nafn = songPath.substring(songPath.lastIndexOf('/') + 1, songPath.lastIndexOf('.'));
-                int lengd = 0;
-
                 try {
-                    AudioFile audioFile = AudioFileIO.read(new File(java.net.URLDecoder.decode(songPath, "UTF-8").substring(songPath.lastIndexOf(':') + 1)));
-                    lengd = audioFile.getAudioHeader().getTrackLength()*1000;
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    String nafn = java.net.URLDecoder.decode(songPath, "UTF-8").substring(songPath.lastIndexOf('/') + 1,
+                            songPath.lastIndexOf('.'));
+                    AudioFile audioFile = AudioFileIO.read(new File(
+                            java.net.URLDecoder.decode(songPath, "UTF-8").substring(songPath.lastIndexOf(':') + 1)));
+                    int lengd = 0;
+                    lengd = audioFile.getAudioHeader().getTrackLength() * 1000;
+                    return new Lag(songPath, imagePath, nafn, lengd);
                 }
 
-                return new Lag(songPath, imagePath, nafn, lengd);
-            } else {
+                catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            else {
                 return null;
             }
 
