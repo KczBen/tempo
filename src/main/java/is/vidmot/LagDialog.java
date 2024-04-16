@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.File;
 import java.util.Optional;
 
+import org.jaudiotagger.audio.*;
+
 public class LagDialog extends Dialog<Lag> {
 
     private String songPath;
@@ -28,16 +30,14 @@ public class LagDialog extends Dialog<Lag> {
     @FXML
     private ImageView fxLagMynd;
 
-
     public LagDialog() {
 
         setDialogPane(lesaDialog());
         setResultConverter();
         setTitle("Bæta við nýju lagi");
 
-
         fxaddsong.setOnAction(event -> {
-            try{
+            try {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Veldu lag til að bæta við lagalista");
                 File selectedFile = fileChooser.showOpenDialog(null);
@@ -50,13 +50,12 @@ public class LagDialog extends Dialog<Lag> {
                         fxvillubod.setText("Skrá er ekki á réttu formi. Reyndu aftur");
                     }
                     songPath = selectedFile.toURI().toString();
-                } }
-            catch (NullPointerException e){
+                }
+            } catch (NullPointerException e) {
                 fxvillubod.setText("Óvænt villa kom upp. Reyndu aftur að velja skrá");
             }
 
         });
-
 
         fxaddphoto.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
@@ -67,7 +66,7 @@ public class LagDialog extends Dialog<Lag> {
                 imagePath = (selectedFile.toURI().toString());
                 Image image = new Image(imagePath);
                 fxLagMynd.setImage(image);
-            }else{
+            } else {
                 imagePath = "media/default.jpg";
             }
         });
@@ -80,15 +79,22 @@ public class LagDialog extends Dialog<Lag> {
         setResultConverter(b -> {
             if (b.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
 
-                String nafn = songPath.substring(songPath.lastIndexOf('/') + 1,songPath.lastIndexOf('.'));
-                int lengd = 1000 * Integer.parseInt(songPath.substring(songPath.lastIndexOf('-') + 1, songPath.lastIndexOf('s')));
+                String nafn = songPath.substring(songPath.lastIndexOf('/') + 1, songPath.lastIndexOf('.'));
+                int lengd = 0;
+
+                try {
+                    AudioFile audioFile = AudioFileIO.read(new File(java.net.URLDecoder.decode(songPath, "UTF-8").substring(songPath.lastIndexOf(':') + 1)));
+                    lengd = audioFile.getAudioHeader().getTrackLength()*1000;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 return new Lag(songPath, imagePath, nafn, lengd);
-            }else{
+            } else {
                 return null;
             }
 
         });
-
 
     }
 

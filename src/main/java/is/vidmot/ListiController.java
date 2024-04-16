@@ -199,7 +199,11 @@ public class ListiController {
      */
     private void setjaMynd(ImageView fxImageView, String nafnMynd) {
         System.out.println("nafn á mynd " + nafnMynd);
-        fxImageView.setImage(new Image(getClass().getResource(nafnMynd).toExternalForm()));
+        try {
+            fxImageView.setImage(new Image(getClass().getResource(nafnMynd).toExternalForm()));
+        } catch (Exception e) {
+            System.err.println("No image! did you set an image?");
+        }
     }
 
     /**
@@ -213,7 +217,19 @@ public class ListiController {
         }
 
         // Smíða nýjan player með nýju Media fyrir lagið
-        player = new MediaPlayer(new Media(getClass().getResource(validLag.getMedia()).toExternalForm()));
+        String mediaSource = validLag.getMedia();
+        Media media;
+        // Check if song is selected from outside
+        // Needs testing on Windows and Mac. file:/ is the prefix on Linux
+        if (mediaSource.startsWith("file:/") || mediaSource.startsWith("https://")) {
+            System.out.println("Playing external media");
+            media = new Media(mediaSource);
+        }
+
+        else {
+            media = new Media(getClass().getResource(mediaSource).toExternalForm());
+        }
+        player = new MediaPlayer(media);
 
         // Láta player vita hvenær lagið endar - stop time
         player.setStartTime(this.startTime);
@@ -456,14 +472,10 @@ public class ListiController {
         LagDialog dialog = new LagDialog();
         Optional<Lag> utkoma = dialog.showAndWait();
 
-
-
-        utkoma.ifPresent (lag -> {
+        utkoma.ifPresent(lag -> {
             lagalisti.addLagToList(lag);
-            
+
         });
-
-
 
     }
 }
