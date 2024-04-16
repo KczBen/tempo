@@ -46,7 +46,7 @@ public class LagDialog extends Dialog<Lag> {
                     String fileName = selectedFile.getName();
                     String fileType = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
                     fxFilePath.setText(fileName);
-                    if (!(fileType.equals("mp3") || fileType.equals("mp4"))) {
+                    if (!(fileType.equals("mp3") || fileType.equals("mp4") || fileType.equals("wav"))) {
                         fxvillubod.setText("Skrá er ekki á réttu formi. Reyndu aftur");
                     }
                     songPath = selectedFile.toURI().toString();
