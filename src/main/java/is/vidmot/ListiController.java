@@ -220,9 +220,7 @@ public class ListiController {
         String mediaSource = validLag.getMedia();
         Media media;
         // Check if song is selected from outside
-        // Needs testing on Windows and Mac. file:/ is the prefix on Linux
         if (mediaSource.startsWith("file:/") || mediaSource.startsWith("https://")) {
-            System.out.println("Playing external media");
             media = new Media(mediaSource);
         }
 
