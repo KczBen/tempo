@@ -13,7 +13,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 <junit.version>5.10.0</junit.version>
     <!-- Þið getið breytt þessum útgáfum eftir því hvað hentar ykkur -->
-    <javafx.version>21</javafx.version>
+    <javafx.version>22</javafx.version>
     <maven.compiler.release>21</maven.compiler.release>
   </properties>
 
@@ -37,7 +37,7 @@
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-media</artifactId>
-      <version>17.0.2</version>
+      <version>22</version>
     </dependency>
     <dependency>
       <groupId>com.dlsc.formsfx</groupId>
