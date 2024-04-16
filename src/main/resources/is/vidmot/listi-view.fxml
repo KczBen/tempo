@@ -186,7 +186,7 @@
                   <Insets top="10.0" />
                </GridPane.margin>
             </HBox>
-            <Label fx:id="fxCurrentTime" text="Time" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Label fx:id="fxCurrentTime" text="Time" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
             </children>
         </GridPane>
     </children>

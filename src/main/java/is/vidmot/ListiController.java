@@ -221,8 +221,9 @@ public class ListiController {
         uppfaeraVolume();
 
         // setja listener tengingu á milli player og progress bar
-        player.currentTimeProperty().addListener((observable, old, newValue) -> fxProgressBar
-                .setProgress(newValue.divide(validLag.getLengd()).toMillis()));
+        player.currentTimeProperty().addListener((observable, old, newValue) -> {fxProgressBar
+                .setProgress(newValue.divide(validLag.getLengd()).toMillis());
+            fxCurrentTime.setText(TimeConverter.convertTime(player.getCurrentTime(), false));});
 
         fxProgressBar.setOnMouseClicked(event -> {
             player.seek(new Duration(event.getX() / fxProgressBar.getWidth() * validLag.getLengd()));
