@@ -1,24 +1,23 @@
 package is.vinnsla;
 
 /******************************************************************************
- *  Nafn    :
- *  T-póstur:
- *  Viðmótsforritun 2024
+ * Nafn :
+ * T-póstur:
+ * Viðmótsforritun 2024
  *
- *  Vinnsluklasi fyrir Lag. Hefur nafn, lengd, mynd og media (skráaslóð) fyrir lagið
+ * Vinnsluklasi fyrir Lag. Hefur nafn, lengd, mynd og media (skráaslóð) fyrir
+ * lagið.
+ *
  *****************************************************************************/
 
 public class Lag {
     private final String media;
     private final String nafn;
-
     private final int lengd;
-
     private final String mynd;
 
-
     /**
-     * Smiður sem tekur inn eiginleika lags og smíðar lagið
+     * Smiður sem tekur inn eiginleika lags og smíðar lagið.
      *
      * @param slod  skráaslóð fyrir lagið
      * @param mynd  mynd sem er sýnd þegar lagið er spilað
@@ -37,7 +36,7 @@ public class Lag {
         return nafn;
     }
 
-    // get aðferðir fyrir tilviksbreytur
+    // Get aðferðir fyrir tilviksbreytur
 
     public String getMedia() {
         return media;

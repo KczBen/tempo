@@ -94,13 +94,14 @@ public class LagDialog extends Dialog<Lag> {
 
     /**
      * Lesa inn dialog pane úr .fxml skrá
+     * 
      * @return
      */
     private DialogPane lesaDialog() {
         FXMLLoader fxmlLoader = new FXMLLoader(LagDialog.class.getResource(View.NYTTLAG.getFileName()));
         try {
             fxmlLoader.setController(this); // setur þennan hlut sem controller
-            return fxmlLoader.load();       // hlaða inn fxml skránni
+            return fxmlLoader.load(); // hlaða inn fxml skránni
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }

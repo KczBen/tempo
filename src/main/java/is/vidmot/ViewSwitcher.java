@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * @author Almas Baimagambetov (almaslvl@gmail.com)
  *
- * EÞH - changed to include caching of controllers
+ *         EÞH - changed to include caching of controllers.
  */
 public class ViewSwitcher {
 
@@ -25,7 +25,7 @@ public class ViewSwitcher {
         ViewSwitcher.scene = scene;
     }
 
-    public static Scene getScene(){
+    public static Scene getScene() {
         return scene;
     }
 
@@ -42,12 +42,12 @@ public class ViewSwitcher {
                 System.out.println("Loading from cache");
                 root = cache.get(view);
             } else {
-                System.out.println("Loading from FXML "+view.getFileName());
+                System.out.println("Loading from FXML " + view.getFileName());
                 FXMLLoader loader = new FXMLLoader(ViewSwitcher.class.getResource(view.getFileName()));
                 root = loader.load();
 
                 cache.put(view, root);
-             //   scene.setRoot(root);
+                // scene.setRoot(root);
                 controllers.put(view, loader.getController());
             }
             scene.setRoot(root);

@@ -1,4 +1,5 @@
 package is.vinnsla;
+
 /******************************************************************************
  *  Nafn    :
  *  T-póstur:
@@ -15,10 +16,11 @@ public class Askrifandi {
 
     /**
      * Smiður fyrir Áskrifanda. Tekur inn nafn
+     * 
      * @param nafn
      */
     public Askrifandi(String nafn) {
-       setNafn(nafn);
+        setNafn(nafn);
     }
 
     // get og set aðferðir fyrir nafn
@@ -30,6 +32,5 @@ public class Askrifandi {
     public void setNafn(String nafn) {
         nafnProperty.set(nafn);
     }
-
 
 }

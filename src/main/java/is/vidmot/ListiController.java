@@ -1,22 +1,13 @@
 package is.vidmot;
-/******************************************************************************
- *  Nafn    :
- *  T-póstur:
- *  Viðmótsforritun 2024
- *
- *  Controller fyrir lagalistann
- *  getur:
- *
- *  -- valið lag
- *  -- play / pause
- *  -- farið heim
- *****************************************************************************/
+
 import is.vinnsla.Askrifandi;
 import is.vinnsla.Lag;
 import is.vinnsla.Lagalistar;
 import is.vinnsla.Lagalisti;
+import is.vinnsla.TimeConverter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
@@ -35,10 +26,19 @@ import java.util.Optional;
 
 import static is.vidmot.ViewSwitcher.scene;
 
-
-public class ListiController  {
-
-    // fastar
+/******************************************************************************
+ * Nafn :
+ * T-póstur:
+ * Viðmótsforritun 2024
+ *
+ * Controller fyrir lagalistann.
+ * getur:
+ *
+ * -- valið lag
+ * -- play / pause
+ * -- farið heim
+ *****************************************************************************/
+public class ListiController {
     private boolean isMuted = false;
     private double setbackVol = 100;
 
@@ -47,9 +47,8 @@ public class ListiController  {
     private final String MUTE = "images/volume_mute.png";
     private final String UNMUTE = "images/volume_unmute.png";
 
-    // viðmótshlutir
     @FXML
-    public ProgressBar fxProgressBar;   // progress bar fyrir spilun á lagi
+    public ProgressBar fxProgressBar; // progress bar fyrir spilun á lagi
     @FXML
     protected ImageView fxPlayPauseView; // mynd fyrir play/pause hnappinn
     @FXML
@@ -57,57 +56,60 @@ public class ListiController  {
     @FXML
     protected Label fxNafnLagalistans;
     @FXML
-    protected ImageView fxMyndLagView;    // mynd fyrir lagið
+    protected ImageView fxMyndLagView; // mynd fyrir lagið
     @FXML
     protected Slider fxVolumeSlider;
     @FXML
     protected ImageView fxMuteIcon;
     @FXML
-    protected Label fxStartTime;
+    protected Button fxStartTime;
     @FXML
-    protected Label fxStopTime;
+    protected Button fxStopTime;
+    @FXML
+    protected Label fxCurrentTime;
 
     // vinnslan
     private Lagalisti lagalisti; // lagalistinn
     private MediaPlayer player; // ein player breyta per forritið
-    private Lag validLag;       // núverandi valið lag
+    private Lag validLag; // núverandi valið lag
     private Boolean shuffle = false; // Don't shuffle by default
-    private Duration startTime;
-    private Duration stopTime;
+    private Duration startTime = Duration.ZERO;
+    private Duration stopTime = Duration.INDEFINITE;
     private boolean lightModeOn = true;
 
-
-
-
-
     /**
-     * Frumstillir lagalistann og tengir hann við ListView viðmótshlut
+     * Frumstillir lagalistann og tengir hann við ListView viðmótshlut.
      */
     public void initialize() {
         // setur lagalistann sem núverandi lagalista úr Lagalistar
         lagalisti = Lagalistar.getNuverandi();
+
         // tengdu lagalistann við ListView-ið
         fxListView.setItems(lagalisti.getListi());
 
         if (!lagalisti.getListi().isEmpty()) {
             fxNafnLagalistans.setText(lagalisti.getNafnLagalistans());
-            // man hvaða lag var síðast spilað á lagalistanum og setur það sem valið stak á ListView
-            fxListView.getSelectionModel().select(lagalisti.getIndex());
-            // setur lagið í focus
-            fxListView.requestFocus();
-            // // Lætur lagalista vita hvert valda lagið er í viðmótinu og uppfærir myndina fyrir lagið
-            veljaLag();
-            // setur upp player
-            setjaPlayer();
-            // virkjar hljóstyrkinn
-            setjaVolume();
 
-            // Það þarf að uppfæra þetta þegar búið er að bæta við nýju lagi á þennan tóma lagalista
-        } else {
+            // man hvaða lag var síðast spilað á lagalistanum og setur það sem valið stak á
+            // ListView
+            fxListView.getSelectionModel().select(lagalisti.getIndex());
+            fxListView.requestFocus(); // setur lagið í focus
+            veljaLag(); // Lætur lagalista vita hvert valda lagið er í viðmótinu og uppfærir myndina
+                        // fyrir lagið
+            setjaPlayer(); // setur upp player
+            setjaVolume(); // virkjar hljóstyrkinn
+            fxCurrentTime.setText("--:--");
+
+            // !!! Það þarf að uppfæra þetta þegar búið er að bæta við nýju lagi á þennan
+            // tóma lagalista
+        }
+
+        else {
             fxNafnLagalistans.setText(lagalisti.getNafnLagalistans());
             fxMyndLagView.setImage(new Image(getClass().getResource("media/default.jpg").toExternalForm()));
 
-            // slökkva á alla virkni (á meðan það eru engin lög á lagalistanum en það þarf að bæta við þessum skilyrðum)
+            // slökkva á alla virkni (á meðan það eru engin lög á lagalistanum en það þarf
+            // að bæta við þessum skilyrðum)
             fxListView.setDisable(true);
             fxPlayPauseView.setDisable(true);
             fxProgressBar.setDisable(true);
@@ -120,22 +122,20 @@ public class ListiController  {
     }
 
     /**
-     * Bregðast við músaratburði og spila valið lag
+     * Bregðst við músaratburði og spila valið lag.
      *
      * @param mouseEvent
      */
-
     @FXML
     protected void onValidLag(MouseEvent mouseEvent) {
         System.out.println(fxListView.getSelectionModel().getSelectedItem());
-        // Lætur lagalista vita hvert valda lagið er í viðmótinu og uppfærir myndina fyrir lagið
-        veljaLag();
-        // spila lagið
-        spilaLag();
+        veljaLag(); // Lætur lagalista vita hvert valda lagið er í viðmótinu og uppfærir myndina
+                    // fyrir lagið
+        spilaLag(); // spila lagið
     }
 
     /**
-     * Lagið er pásað ef það er í spilun, lagið er spilað ef það er í pásu
+     * Lagið er pásað ef það er í spilun, lagið er spilað ef það er í pásu.
      *
      * @param actionEvent ónotað
      */
@@ -143,11 +143,13 @@ public class ListiController  {
     protected void onPlayPause(ActionEvent actionEvent) {
         // ef player-inn er spilandi
         if (player.getStatus().equals(MediaPlayer.Status.PLAYING)) {
-            setjaMynd(fxPlayPauseView, PlAY);   // uppfærðu myndina með play (ör)
-            player.pause();                     // pásaðu spilarann
-        } else if (player.getStatus().equals(MediaPlayer.Status.PAUSED)) {
-            setjaMynd(fxPlayPauseView, PAUSE);  // uppfærðu myndina með pause
-            player.play();                      // haltu áfram að spila
+            setjaMynd(fxPlayPauseView, PlAY); // uppfærðu myndina með play (ör)
+            player.pause(); // pásaðu spilarann
+        }
+
+        else if (player.getStatus().equals(MediaPlayer.Status.PAUSED)) {
+            setjaMynd(fxPlayPauseView, PAUSE); // uppfærðu myndina með pause
+            player.play(); // haltu áfram að spila
         }
     }
 
@@ -159,10 +161,10 @@ public class ListiController  {
     @FXML
     protected void onHeim(ActionEvent actionEvent) {
         // stoppaðu player ef hann er ekki null
-        if (player != null)
+        if (player != null) {
             player.stop();
-        // farðu í HEIMA senuna með ViewSwitcher
-        ViewSwitcher.switchTo(View.HEIMA, true);
+        }
+        ViewSwitcher.switchTo(View.HEIMA, true); // farðu í HEIMA senuna með ViewSwitcher
     }
 
     /**
@@ -170,60 +172,69 @@ public class ListiController  {
      */
     private void veljaLag() {
         if (!fxListView.getItems().isEmpty()) {
-            // hvaða lag er valið
-            validLag = fxListView.getSelectionModel().getSelectedItem();
+            validLag = fxListView.getSelectionModel().getSelectedItem(); // hvaða lag er valið
             if (validLag != null) {
-                //  láttu lagalista vita um indexinn á völdu lagi
+                // láttu lagalista vita um indexinn á völdu lagi
                 lagalisti.setIndex(fxListView.getSelectionModel().getSelectedIndex());
-                // uppfæra myndina fyrir lagið
-                setjaMynd(fxMyndLagView, validLag.getMynd());
+                setjaMynd(fxMyndLagView, validLag.getMynd()); // uppfæra myndina fyrir lagið
             }
         }
     }
 
     /**
-     * Spila lagið
+     * Spilar lagið.
      */
     private void spilaLag() {
         setjaMynd(fxPlayPauseView, PAUSE);
-        // Búa til nýjan player
-        // Clear start and end points
-        clearPoints();
-        setjaPlayer();
-        // setja spilun í gang
-        player.play();
+        clearPoints(); // Clear start and end points
+        setjaPlayer(); // Búa til nýjan player
+        player.play(); // setja spilun í gang
     }
 
     /**
-     * Setja mynd með nafni á ImageView
+     * Setur mynd með nafni á ImageView.
      *
      * @param fxImageView viðmótshluturinn sem á að uppfærast
      * @param nafnMynd    nafn á myndinni
      */
     private void setjaMynd(ImageView fxImageView, String nafnMynd) {
-        System.out.println ("nafn á mynd "+nafnMynd);
+        System.out.println("nafn á mynd " + nafnMynd);
         fxImageView.setImage(new Image(getClass().getResource(nafnMynd).toExternalForm()));
     }
 
     /**
-     * Setja upp player fyrir lagið, þ.m.t. at setja handler á hvenær lagið stoppar og tengja
-     * lagið við progress bar
+     * Setur upp player fyrir lagið, þ.m.t. at setja handler á hvenær lagið stoppar
+     * og tengja
+     * lagið við progress bar.
      */
     private void setjaPlayer() {
-        // Stoppa player-inn ef hann var ekki stopp
-        if (player != null)
-            player.stop();
+        if (player != null) {
+            player.stop(); // Stoppa player-inn ef hann var ekki stopp
+        }
+
         // Smíða nýjan player með nýju Media fyrir lagið
         player = new MediaPlayer(new Media(getClass().getResource(validLag.getMedia()).toExternalForm()));
+
         // Láta player vita hvenær lagið endar - stop time
         player.setStartTime(this.startTime);
         player.setStopTime(this.stopTime);
+
         // setja fall sem er keyrð þegar lagið hættir
         player.setOnEndOfMedia(this::naestaLag);
         uppfaeraVolume();
+
         // setja listener tengingu á milli player og progress bar
-        player.currentTimeProperty().addListener((observable, old, newValue) ->
-                fxProgressBar.setProgress(newValue.divide(validLag.getLengd()).toMillis()));
+        player.currentTimeProperty().addListener((observable, old, newValue) -> {
+            fxProgressBar.setProgress(newValue.divide(validLag.getLengd()).toMillis());
+            fxCurrentTime.setText(TimeConverter.convertTime(player.getCurrentTime(), false));
+        });
+
+        fxProgressBar.setOnMouseClicked(event -> {
+            player.seek(new Duration(event.getX() / fxProgressBar.getWidth() * validLag.getLengd()));
+        });
+
+        fxStartTime.setText(TimeConverter.convertTime(this.startTime, false));
+        fxStopTime.setText(TimeConverter.convertTime(validLag.getLengd(), false));
     }
 
     /**
@@ -241,7 +252,9 @@ public class ListiController  {
 
                 if (volumeEkkiNull) {
                     uppfaeraMuteIcon(MUTE);
-                } else {
+                }
+
+                else {
                     uppfaeraMuteIcon(UNMUTE);
                 }
             }
@@ -257,7 +270,9 @@ public class ListiController  {
             player.setVolume(setbackVol / 100);
             uppfaeraMuteIcon(MUTE);
             isMuted = false;
-        } else {
+        }
+
+        else {
             setbackVol = player.getVolume() * 100;
             player.setVolume(0);
             uppfaeraMuteIcon(UNMUTE);
@@ -274,7 +289,9 @@ public class ListiController  {
             if (!isMuted) {
                 player.setVolume(fxVolumeSlider.getValue() / 100);
                 uppfaeraMuteIcon(MUTE);
-            } else {
+            }
+
+            else {
                 player.setVolume(0);
                 uppfaeraMuteIcon(UNMUTE);
             }
@@ -284,40 +301,38 @@ public class ListiController  {
     /**
      * Uppfærir mynd á mute/unmute takka (ImageView hlut).
      *
-     * @param muteIcon      string sem lýsir myndinni fyrir mute/unmute takka
+     * @param muteIcon string sem lýsir myndinni fyrir mute/unmute takka
      */
     private void uppfaeraMuteIcon(String muteIcon) {
         setjaMynd(fxMuteIcon, muteIcon);
     }
 
     /**
-     * Næsta lag er spilað. Kallað á þessa aðferð þegar fyrra lag á listanum endar
+     * Næsta lag er spilað. Kallað á þessa aðferð þegar fyrra lag á listanum endar.
      */
     private void naestaLag() {
-        // The setOnEndOfMedia property overrides cycleCount, this prevents the next song from playing when it ends
-        if (player.getCycleCount() != 1)
-        {
+        // the setOnEndOfMedia property overrides cycleCount, this prevents the next
+        // song from playing when it ends
+        if (player.getCycleCount() != 1) {
             return;
         }
 
-        if (this.shuffle == false)
-        {
+        if (this.shuffle == false) {
             lagalisti.naesti();
         }
-        else
-        {
+
+        else {
             lagalisti.random();
         }
         // uppfæra ListView til samræmis, þ.e. að næsta lag sé valið
         fxListView.getSelectionModel().selectIndices(lagalisti.getIndex());
-        // velja lag
-        veljaLag();
-        // spila lag
-        spilaLag();
+
+        veljaLag(); // velja lag
+        spilaLag(); // spila lag
         uppfaeraVolume();
     }
 
-    private void fyrraLag(){
+    private void fyrraLag() {
         lagalisti.fyrri();
         fxListView.getSelectionModel().selectIndices(lagalisti.getIndex());
         veljaLag();
@@ -325,94 +340,86 @@ public class ListiController  {
         uppfaeraVolume();
     }
 
-    private void toggleLoop()
-    {
-        if (player.getCycleCount() == 1)
-        {
+    private void toggleLoop() {
+        if (player.getCycleCount() == 1) {
             player.setCycleCount(MediaPlayer.INDEFINITE);
 
             // If loop points have been set, loop from there
-            if (this.startTime != Duration.ZERO || this.stopTime != new Duration(validLag.getLengd()))
-            {
+            if (this.startTime != Duration.ZERO || this.stopTime != new Duration(validLag.getLengd())) {
                 // Check if seek head is out of bounds for the repeat, set to start if so
-                if (player.getCurrentTime().greaterThan(this.stopTime) || player.getCurrentTime().lessThan(this.startTime))
-                {
+                if (player.getCurrentTime().greaterThan(this.stopTime)
+                        || player.getCurrentTime().lessThan(this.startTime)) {
                     player.seek(startTime);
                 }
 
                 player.setStartTime(this.startTime);
                 player.setStopTime(this.stopTime);
             }
+            player.setCycleCount(MediaPlayer.INDEFINITE);
         }
 
-        else
-        {
+        else {
             // Stop looping and clear loop points
+            player.setCycleCount(1);
             clearPoints();
             player.setStartTime(this.startTime);
             player.setStopTime(this.stopTime);
-            player.setCycleCount(1);
         }
     }
 
-    private void toggleShuffle()
-    {
-        if (this.shuffle == false)
-        {
+    private void toggleShuffle() {
+        if (this.shuffle == false) {
             this.shuffle = true;
         }
-        else
-        {
+
+        else {
             this.shuffle = false;
         }
     }
 
-    private void setStart()
-    {
-        this.startTime = player.getCurrentTime();
-        fxStartTime.setText(player.getCurrentTime().toString());
+    private void setStart() {
+        if (!player.getCurrentTime().greaterThanOrEqualTo(this.stopTime)) {
+            this.startTime = player.getCurrentTime();
+            fxStartTime.setText(TimeConverter.convertTime(player.getCurrentTime(), true));
+        }
     }
 
-    private void setStop()
-    {
-        this.stopTime = player.getCurrentTime();
-        fxStartTime.setText(player.getCurrentTime().toString());
+    private void setStop() {
+        if (!player.getCurrentTime().lessThanOrEqualTo(this.startTime)) {
+            this.stopTime = player.getCurrentTime();
+            fxStopTime.setText(TimeConverter.convertTime(player.getCurrentTime(), true));
+        }
     }
 
-
-    private void clearPoints()
-    {
+    private void clearPoints() {
         this.startTime = Duration.ZERO;
         this.stopTime = new Duration(validLag.getLengd());
+        fxStartTime.setText(TimeConverter.convertTime(this.startTime, false));
+        fxStopTime.setText(TimeConverter.convertTime(validLag.getLengd(), false));
     }
 
     @FXML
-    public void onClearPoints(ActionEvent actionEvent)
-    {
+    public void onClearPoints(ActionEvent actionEvent) {
         clearPoints();
     }
 
     @FXML
-    public void onSetStart(ActionEvent actionEvent)
-    {
+    public void onSetStart(ActionEvent actionEvent) {
         setStart();
     }
 
     @FXML
-    public void onSetStop(ActionEvent actionEvent)
-    {
+    public void onSetStop(ActionEvent actionEvent) {
         setStop();
     }
 
     @FXML
-    public void onLoop(ActionEvent actionEvent)
-    {
+    public void onLoop(ActionEvent actionEvent) {
         toggleLoop();
     }
 
     @FXML
-    public void onShuffle(ActionEvent actionEvent)
-    {
+    public void onShuffle(ActionEvent actionEvent) {
         toggleShuffle();
     }
 
@@ -428,26 +435,25 @@ public class ListiController  {
         fyrraLag();
     }
 
-
-
     public void switchMode(ActionEvent actionEvent) {
         Scene scene = ViewSwitcher.getScene();
         lightModeOn = !lightModeOn;
-        if(lightModeOn){
+        if (lightModeOn) {
             scene.getStylesheets().clear(); // Clear existing stylesheets
-            scene.getStylesheets().add(PlayerApplication.class.getResource("/is/vidmot/css/lightMode.css").toExternalForm());
-        }else{
+            scene.getStylesheets()
+                    .add(PlayerApplication.class.getResource("/is/vidmot/css/lightMode.css").toExternalForm());
+        }
+
+        else {
             scene.getStylesheets().clear(); // Clear existing stylesheets
-            scene.getStylesheets().add(PlayerApplication.class.getResource("/is/vidmot/css/darkMode.css").toExternalForm());
+            scene.getStylesheets()
+                    .add(PlayerApplication.class.getResource("/is/vidmot/css/darkMode.css").toExternalForm());
         }
     }
-
 
     public void openAddSong(ActionEvent actionEvent) {
 
         LagDialog dialog = new LagDialog();
-
-
         Optional<Lag> utkoma = dialog.showAndWait();
 
 
@@ -461,6 +467,3 @@ public class ListiController  {
 
     }
 }
-
-
-

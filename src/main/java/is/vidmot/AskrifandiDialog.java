@@ -1,12 +1,5 @@
 package is.vidmot;
-/******************************************************************************
- *  Nafn    :
- *  T-póstur:
- *  Viðmótsforritun 2024
- *
- *  Dialog modal til að fá nafn áskrifanda
- *
- *****************************************************************************/
+
 import is.vinnsla.Askrifandi;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,19 +10,25 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-// AskrifandiDialog erfir frá Dialog<Askrifandi>
-public class AskrifandiDialog extends Dialog<Askrifandi> {
+/******************************************************************************
+ * Nafn :
+ * T-póstur:
+ * Viðmótsforritun 2024
+ *
+ * Dialog modal til að fá nafn áskrifanda
+ *
+ *****************************************************************************/
+public class AskrifandiDialog extends Dialog<Askrifandi> { // AskrifandiDialog erfir frá Dialog<Askrifandi>
+    private final Askrifandi askrifandi; // áskrifanda vinnsluhlutur
 
-    // viðmótshlutur
     @FXML
     protected TextField fxNafn; // nafnið á áskrifanda
 
-    // vinnsluhlutur
-    private final Askrifandi askrifandi; // áskrifanda vinnsluhlutur
-
     /**
-     * Smíður. Tekur inn áskrifanda, les inn DialogPane og setur í Dialog. Setur upp result converter
-     * sem umbreytir gögnunum í Askrifandi hlut
+     * Smíður. Tekur inn áskrifanda, les inn DialogPane og setur í Dialog. Setur upp
+     * result converter
+     * sem umbreytir gögnunum í Askrifandi hlut.
+     *
      * @param askrifandi áskrifandinn
      */
     public AskrifandiDialog(Askrifandi askrifandi) {
@@ -41,28 +40,29 @@ public class AskrifandiDialog extends Dialog<Askrifandi> {
     }
 
     /**
-     * Færa gögn úr viðmótshlutum í dialog í vinnsluhlut
+     * Færa gögn úr viðmótshlutum í dialog í vinnsluhlut.
      */
     private void setResultConverter() {
-        setResultConverter(b -> {                    // b er af taginu ButtonType - hér er lambda fall sem tekur inn b
+        setResultConverter(b -> { // b er af taginu ButtonType - hér er lambda fall sem tekur inn b
             if (b.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
-                askrifandi.setNafn(fxNafn.getText());   // ná í nafnið út dialog og setja í áskrifanda hlutinn
+                askrifandi.setNafn(fxNafn.getText()); // ná í nafnið út dialog og setja í áskrifanda hlutinn
                 return askrifandi;
             } else {
                 return null;
             }
-        });         // endir á d.setResultConverter
+        }); // endir á d.setResultConverter
     }
 
     /**
-     * Lesa inn dialog pane úr .fxml skrá
+     * Lesa inn dialog pane úr .fxml skrá.
+     * 
      * @return
      */
     private DialogPane lesaDialog() {
         FXMLLoader fxmlLoader = new FXMLLoader(AskrifandiDialog.class.getResource(View.ASKRIFANDI.getFileName()));
         try {
             fxmlLoader.setController(this); // setur þennan hlut sem controller
-            return fxmlLoader.load();       // hlaða inn fxml skránni
+            return fxmlLoader.load(); // hlaða inn fxml skránni
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
