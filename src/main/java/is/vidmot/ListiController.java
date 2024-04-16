@@ -371,13 +371,17 @@ public class ListiController {
     }
 
     private void setStart() {
-        this.startTime = player.getCurrentTime();
-        fxStartTime.setText(TimeConverter.convertTime(player.getCurrentTime(), true));
+        if (!player.getCurrentTime().greaterThanOrEqualTo(this.stopTime)) {
+            this.startTime = player.getCurrentTime();
+            fxStartTime.setText(TimeConverter.convertTime(player.getCurrentTime(), true));
+        }
     }
 
     private void setStop() {
-        this.stopTime = player.getCurrentTime();
-        fxStopTime.setText(TimeConverter.convertTime(player.getCurrentTime(), true));
+        if (!player.getCurrentTime().lessThanOrEqualTo(this.startTime)) {
+            this.stopTime = player.getCurrentTime();
+            fxStopTime.setText(TimeConverter.convertTime(player.getCurrentTime(), true));
+        }
     }
 
     private void clearPoints() {
