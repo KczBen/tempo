@@ -96,8 +96,14 @@ public class ListiController {
             setjaVolume(); // virkjar hljóstyrkinn
             fxCurrentTime.setText("--:--");
 
-            // !!! Það þarf að uppfæra þetta þegar búið er að bæta við nýju lagi á þennan
-            // tóma lagalista
+            // Enable all the controls - used for when a song is added to an empty playlist
+            fxListView.setDisable(false);
+            fxPlayPauseView.setDisable(false);
+            fxProgressBar.setDisable(false);
+            fxMuteIcon.setDisable(false);
+            fxVolumeSlider.setDisable(false);
+            fxStartTime.setDisable(false);
+            fxStopTime.setDisable(false);
         }
 
         else {
@@ -111,7 +117,6 @@ public class ListiController {
             fxProgressBar.setDisable(true);
             fxMuteIcon.setDisable(true);
             fxVolumeSlider.setDisable(true);
-
             fxStartTime.setDisable(true);
             fxStopTime.setDisable(true);
         }
@@ -197,21 +202,25 @@ public class ListiController {
         System.out.println("nafn á mynd " + nafnMynd);
         Image image;
         // Check if image is selected from outside
-        if (nafnMynd.startsWith("file:/") || nafnMynd.startsWith("https://")) {
-            image = new Image(nafnMynd);
-        }
-
-        else {
-            image = new Image(getClass().getResource(nafnMynd).toExternalForm());
-        }
-
         try {
-            fxImageView.setImage(image);
-        } 
-        
-        catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("No image! did you set an image?");
+            if (nafnMynd.startsWith("file:/")) {
+                image = new Image(nafnMynd);
+            }
+    
+            else {
+                image = new Image(getClass().getResource(nafnMynd).toExternalForm());
+            }
+    
+            try {
+                fxImageView.setImage(image);
+            } 
+            
+            catch (Exception e) {
+                e.printStackTrace();
+                System.err.println("No image! did you set an image?");
+            }            
+        } catch (Exception e) {
+            fxImageView.setImage(new Image(getClass().getResource("media/default.jpg").toExternalForm()));
         }
     }
 
@@ -229,7 +238,7 @@ public class ListiController {
         String mediaSource = validLag.getMedia();
         Media media;
         // Check if song is selected from outside
-        if (mediaSource.startsWith("file:/") || mediaSource.startsWith("https://")) {
+        if (mediaSource.startsWith("file:/")) {
             media = new Media(mediaSource);
         }
 
@@ -481,8 +490,10 @@ public class ListiController {
 
         utkoma.ifPresent(lag -> {
             lagalisti.addLagToList(lag);
-
         });
 
+        if (this.player == null) {
+            initialize();
+        }
     }
 }
