@@ -4,6 +4,7 @@ import is.vinnsla.Askrifandi;
 import is.vinnsla.Lag;
 import is.vinnsla.Lagalistar;
 import is.vinnsla.Lagalisti;
+import is.vinnsla.TimeConverter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -209,9 +210,8 @@ public class ListiController  {
         player.currentTimeProperty().addListener((observable, old, newValue) ->
                 fxProgressBar.setProgress(newValue.divide(validLag.getLengd()).toMillis()));
 
-        // TODO: Display time in hh:mm:ss format
-        fxStartTime.setText(this.startTime.toString());
-        fxStopTime.setText(Integer.toString(validLag.getLengd()));
+        fxStartTime.setText(TimeConverter.convertTime(this.startTime, false));
+        fxStopTime.setText(TimeConverter.convertTime(validLag.getLengd(), false));
     }
 
     /**
@@ -334,10 +334,10 @@ public class ListiController  {
         else
         {
             // Stop looping and clear loop points
+            player.setCycleCount(1);
             clearPoints();
             player.setStartTime(this.startTime);
             player.setStopTime(this.stopTime);
-            player.setCycleCount(1);
         }
     }
 
@@ -356,15 +356,13 @@ public class ListiController  {
     private void setStart()
     {
         this.startTime = player.getCurrentTime();
-        // TODO: Display time in hh:mm:ss format - additionally milliseconds
-        fxStartTime.setText(player.getCurrentTime().toString());
+        fxStartTime.setText(TimeConverter.convertTime(player.getCurrentTime(), true));
     }
 
     private void setStop()
     {
         this.stopTime = player.getCurrentTime();
-        // TODO: Display time in hh:mm:ss format - additionally milliseconds
-        fxStopTime.setText(player.getCurrentTime().toString());
+        fxStopTime.setText(TimeConverter.convertTime(player.getCurrentTime(), true));
     }
 
 
@@ -372,8 +370,8 @@ public class ListiController  {
     {
         this.startTime = Duration.ZERO;
         this.stopTime = new Duration(validLag.getLengd());
-        fxStartTime.setText(this.startTime.toString());
-        fxStopTime.setText(player.getTotalDuration().toString());
+        fxStartTime.setText(TimeConverter.convertTime(this.startTime, false));
+        fxStopTime.setText(TimeConverter.convertTime(validLag.getLengd(), false));
     }
 
     @FXML
