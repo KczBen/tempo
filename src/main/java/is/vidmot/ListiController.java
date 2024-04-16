@@ -199,9 +199,22 @@ public class ListiController {
      */
     private void setjaMynd(ImageView fxImageView, String nafnMynd) {
         System.out.println("nafn á mynd " + nafnMynd);
+        Image image;
+        // Check if image is selected from outside
+        if (nafnMynd.startsWith("file:/") || nafnMynd.startsWith("https://")) {
+            image = new Image(nafnMynd);
+        }
+
+        else {
+            image = new Image(getClass().getResource(nafnMynd).toExternalForm());
+        }
+
         try {
-            fxImageView.setImage(new Image(getClass().getResource(nafnMynd).toExternalForm()));
-        } catch (Exception e) {
+            fxImageView.setImage(image);
+        } 
+        
+        catch (Exception e) {
+            e.printStackTrace();
             System.err.println("No image! did you set an image?");
         }
     }

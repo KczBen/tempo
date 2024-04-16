@@ -86,6 +86,7 @@ public class LagDialog extends Dialog<Lag> {
                             java.net.URLDecoder.decode(songPath, "UTF-8").substring(songPath.lastIndexOf(':') + 1)));
                     int lengd = 0;
                     lengd = audioFile.getAudioHeader().getTrackLength() * 1000;
+                    System.out.println(imagePath);
                     return new Lag(songPath, imagePath, nafn, lengd);
                 }
 
