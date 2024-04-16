@@ -96,6 +96,7 @@ public class ListiController {
                         // fyrir lagið
             setjaPlayer(); // setur upp player
             setjaVolume(); // virkjar hljóstyrkinn
+            fxCurrentTime.setText("--:--");
 
             // !!! Það þarf að uppfæra þetta þegar búið er að bæta við nýju lagi á þennan
             // tóma lagalista
@@ -221,9 +222,11 @@ public class ListiController {
         uppfaeraVolume();
 
         // setja listener tengingu á milli player og progress bar
-        player.currentTimeProperty().addListener((observable, old, newValue) -> {fxProgressBar
-                .setProgress(newValue.divide(validLag.getLengd()).toMillis());
-            fxCurrentTime.setText(TimeConverter.convertTime(player.getCurrentTime(), false));});
+        player.currentTimeProperty().addListener((observable, old, newValue) -> {
+            fxProgressBar
+                    .setProgress(newValue.divide(validLag.getLengd()).toMillis());
+            fxCurrentTime.setText(TimeConverter.convertTime(player.getCurrentTime(), false));
+        });
 
         fxProgressBar.setOnMouseClicked(event -> {
             player.seek(new Duration(event.getX() / fxProgressBar.getWidth() * validLag.getLengd()));

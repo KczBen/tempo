@@ -152,7 +152,7 @@
                 <ProgressBar fx:id="fxProgressBar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="500.0" progress="0.03" GridPane.columnSpan="5" GridPane.rowIndex="1" />
                 <Button fx:id="fxStartTime" alignment="TOP_LEFT" onAction="#onSetStart" text="Upphafstími" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
                 <Button fx:id="fxStopTime" alignment="TOP_RIGHT" onAction="#onSetStop" text="Lokatími" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-            <HBox prefHeight="30.0" prefWidth="149.0" spacing="5.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <HBox prefHeight="30.0" prefWidth="149.0" spacing="5.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <children>
                       <Button alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" onAction="#onPrevSong" prefHeight="30" prefWidth="59.0" styleClass="image-button">
                           <graphic>
