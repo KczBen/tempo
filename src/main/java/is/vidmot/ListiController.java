@@ -222,6 +222,10 @@ public class ListiController {
         player.currentTimeProperty().addListener((observable, old, newValue) -> fxProgressBar
                 .setProgress(newValue.divide(validLag.getLengd()).toMillis()));
 
+        fxProgressBar.setOnMouseClicked(event -> {
+            player.seek(new Duration(event.getX() / fxProgressBar.getWidth() * validLag.getLengd()));
+        });
+
         fxStartTime.setText(TimeConverter.convertTime(this.startTime, false));
         fxStopTime.setText(TimeConverter.convertTime(validLag.getLengd(), false));
     }
