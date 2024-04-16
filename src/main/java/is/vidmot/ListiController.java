@@ -4,8 +4,10 @@ import is.vinnsla.Askrifandi;
 import is.vinnsla.Lag;
 import is.vinnsla.Lagalistar;
 import is.vinnsla.Lagalisti;
+import is.vinnsla.TimeConverter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
@@ -58,17 +60,17 @@ public class ListiController  {
     @FXML
     protected ImageView fxMuteIcon;
     @FXML
-    protected Label fxStartTime;
+    protected Button fxStartTime;
     @FXML
-    protected Label fxStopTime;
+    protected Button fxStopTime;
 
     // vinnslan
     private Lagalisti lagalisti; // lagalistinn
     private MediaPlayer player; // ein player breyta per forritið
     private Lag validLag;       // núverandi valið lag
     private Boolean shuffle = false; // Don't shuffle by default
-    private Duration startTime;
-    private Duration stopTime;
+    private Duration startTime = Duration.ZERO;
+    private Duration stopTime = Duration.INDEFINITE;
     private boolean lightModeOn = true;
 
     /**
@@ -213,6 +215,9 @@ public class ListiController  {
         // setja listener tengingu á milli player og progress bar
         player.currentTimeProperty().addListener((observable, old, newValue) ->
                 fxProgressBar.setProgress(newValue.divide(validLag.getLengd()).toMillis()));
+
+        fxStartTime.setText(TimeConverter.convertTime(this.startTime, false));
+        fxStopTime.setText(TimeConverter.convertTime(validLag.getLengd(), false));
     }
 
     /**
@@ -327,18 +332,19 @@ public class ListiController  {
                 if (player.getCurrentTime().greaterThan(this.stopTime) || player.getCurrentTime().lessThan(this.startTime)) {
                     player.seek(startTime);
                 }
-
+                
                 player.setStartTime(this.startTime);
                 player.setStopTime(this.stopTime);
             }
+            player.setCycleCount(MediaPlayer.INDEFINITE);
         }
 
         else {
             // Stop looping and clear loop points
+            player.setCycleCount(1);
             clearPoints();
             player.setStartTime(this.startTime);
             player.setStopTime(this.stopTime);
-            player.setCycleCount(1);
         }
     }
 
@@ -354,18 +360,20 @@ public class ListiController  {
 
     private void setStart() {
         this.startTime = player.getCurrentTime();
-        fxStartTime.setText(player.getCurrentTime().toString());
+        fxStartTime.setText(TimeConverter.convertTime(player.getCurrentTime(), true));
     }
 
     private void setStop() {
         this.stopTime = player.getCurrentTime();
-        fxStartTime.setText(player.getCurrentTime().toString());
+        fxStopTime.setText(TimeConverter.convertTime(player.getCurrentTime(), true));
     }
 
 
     private void clearPoints() {
         this.startTime = Duration.ZERO;
         this.stopTime = new Duration(validLag.getLengd());
+        fxStartTime.setText(TimeConverter.convertTime(this.startTime, false));
+        fxStopTime.setText(TimeConverter.convertTime(validLag.getLengd(), false));
     }
 
     @FXML
