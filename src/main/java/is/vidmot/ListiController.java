@@ -1,6 +1,5 @@
 package is.vidmot;
 
-import is.vinnsla.Askrifandi;
 import is.vinnsla.Lag;
 import is.vinnsla.Lagalistar;
 import is.vinnsla.Lagalisti;
@@ -22,7 +21,6 @@ import javafx.scene.Scene;
 
 import java.util.Optional;
 
-import static is.vidmot.ViewSwitcher.scene;
 
 /******************************************************************************
  * Nafn :
@@ -197,7 +195,24 @@ public class ListiController {
      */
     private void setjaMynd(ImageView fxImageView, String nafnMynd) {
         System.out.println("nafn á mynd " + nafnMynd);
-        fxImageView.setImage(new Image(getClass().getResource(nafnMynd).toExternalForm()));
+        Image image;
+        // Check if image is selected from outside
+        if (nafnMynd.startsWith("file:/") || nafnMynd.startsWith("https://")) {
+            image = new Image(nafnMynd);
+        }
+
+        else {
+            image = new Image(getClass().getResource(nafnMynd).toExternalForm());
+        }
+
+        try {
+            fxImageView.setImage(image);
+        } 
+        
+        catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("No image! did you set an image?");
+        }
     }
 
     /**
@@ -211,7 +226,17 @@ public class ListiController {
         }
 
         // Smíða nýjan player með nýju Media fyrir lagið
-        player = new MediaPlayer(new Media(getClass().getResource(validLag.getMedia()).toExternalForm()));
+        String mediaSource = validLag.getMedia();
+        Media media;
+        // Check if song is selected from outside
+        if (mediaSource.startsWith("file:/") || mediaSource.startsWith("https://")) {
+            media = new Media(mediaSource);
+        }
+
+        else {
+            media = new Media(getClass().getResource(mediaSource).toExternalForm());
+        }
+        player = new MediaPlayer(media);
 
         // Láta player vita hvenær lagið endar - stop time
         player.setStartTime(this.startTime);
@@ -453,5 +478,11 @@ public class ListiController {
 
         LagDialog dialog = new LagDialog();
         Optional<Lag> utkoma = dialog.showAndWait();
+
+        utkoma.ifPresent(lag -> {
+            lagalisti.addLagToList(lag);
+
+        });
+
     }
 }

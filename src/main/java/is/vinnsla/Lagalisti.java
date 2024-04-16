@@ -99,4 +99,9 @@ public class Lagalisti {
     public String getImgPath() {
         return imgPath;
     }
+
+    public void addLagToList(Lag lag) {
+        listi.add(lag);
+    }
+
 }
