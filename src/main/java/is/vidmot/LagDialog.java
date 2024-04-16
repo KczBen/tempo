@@ -7,11 +7,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import javafx.event.ActionEvent;
 
 import java.io.IOException;
 import java.io.File;
-import java.util.Optional;
 
 import org.jaudiotagger.audio.*;
 

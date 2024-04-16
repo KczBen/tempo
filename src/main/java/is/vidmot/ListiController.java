@@ -1,6 +1,5 @@
 package is.vidmot;
 
-import is.vinnsla.Askrifandi;
 import is.vinnsla.Lag;
 import is.vinnsla.Lagalistar;
 import is.vinnsla.Lagalisti;
@@ -20,11 +19,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import javafx.scene.Scene;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
-import static is.vidmot.ViewSwitcher.scene;
 
 /******************************************************************************
  * Nafn :
