@@ -1,4 +1,5 @@
 package is.vidmot;
+
 /******************************************************************************
  *  Nafn    : Ebba Þóra Hvannberg
  *  T-póstur: ebba@hi.is
@@ -11,7 +12,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public interface ListiControllerInterface {
-
 
     /**
      * Frumstillir lagalistann og tengir hann við ListView viðmótshlut
@@ -58,7 +58,8 @@ public interface ListiControllerInterface {
     void setjaMynd(ImageView fxImageView, String nafnMynd);
 
     /**
-     * Setja upp player fyrir lagið, þ.m.t. at setja handler á hvenær lagið stoppar og tengja
+     * Setja upp player fyrir lagið, þ.m.t. at setja handler á hvenær lagið stoppar
+     * og tengja
      * lagið við progress bar
      */
     void setjaPlayer();

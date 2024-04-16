@@ -1,4 +1,5 @@
 package is.vidmot;
+
 import is.vinnsla.Askrifandi;
 import is.vinnsla.Lagalistar;
 import is.vinnsla.Lagalisti;
@@ -20,16 +21,16 @@ import java.util.List;
 import java.util.Optional;
 
 /******************************************************************************
- *  Nafn    :
- *  T-póstur:
- *  Viðmótsforritun 2024
+ * Nafn :
+ * T-póstur:
+ * Viðmótsforritun 2024
  *
- *  Controller fyrir forsíðuna
+ * Controller fyrir forsíðuna
  *
- *  Getur valið, búið til, endurnefnt, eytt lagalista.
+ * Getur valið, búið til, endurnefnt, eytt lagalista.
  *
  *****************************************************************************/
-public class PlayerController  {
+public class PlayerController {
 
     // fastar
     public static final String ASKRIFANDI = "Áskrifandi";
@@ -69,7 +70,7 @@ public class PlayerController  {
                 imageView.setFitHeight(70);
                 imageView.setFitWidth(150);
 
-                //imageView.setCursor(Cursor.HAND);
+                // imageView.setCursor(Cursor.HAND);
                 imageView.setOnMouseClicked(event -> {
                     if (event.getButton() == MouseButton.PRIMARY) {
                         Node node = (Node) event.getSource();
@@ -94,8 +95,8 @@ public class PlayerController  {
     /**
      * Setur upp context menu fyrir lagalistana.
      *
-     * @param node      tilvik af lagalista
-     * @param index     tala sem auðkennir lagalistann
+     * @param node  tilvik af lagalista
+     * @param index tala sem auðkennir lagalistann
      */
     private void virkjaContextMenu(Node node, int index) {
         if (contextMenu != null) {
@@ -113,13 +114,14 @@ public class PlayerController  {
         eydaLista.setOnAction(event -> eydaLista(index));
 
         contextMenu.getItems().addAll(endurnefnaLista, breytaMynd, eydaLista);
-        node.setOnContextMenuRequested(event -> contextMenu.show(node, event.getScreenX(), event.getScreenY()));;
+        node.setOnContextMenuRequested(event -> contextMenu.show(node, event.getScreenX(), event.getScreenY()));
+        ;
     }
 
     /**
      * Endurnefnir lagalistann.
      *
-     * @param index     tala sem auðkennir lagalistann
+     * @param index tala sem auðkennir lagalistann
      */
     private void endurnefnaLista(int index) {
         TextInputDialog dialog = new TextInputDialog();
@@ -147,13 +149,14 @@ public class PlayerController  {
     /**
      * Eyðir lagalistanum.
      *
-     * @param index     tala sem auðkennir lagalistann
+     * @param index tala sem auðkennir lagalistann
      */
     private void eydaLista(int index) {
         if (index >= 4) {
             ButtonType jaTakki = new ButtonType("Já", ButtonBar.ButtonData.YES);
             ButtonType neiTakki = new ButtonType("Nei", ButtonBar.ButtonData.NO);
-            Alert stadfesta = new Alert(Alert.AlertType.CONFIRMATION, "Viltu eyða þessum lagalista?", jaTakki, neiTakki);
+            Alert stadfesta = new Alert(Alert.AlertType.CONFIRMATION, "Viltu eyða þessum lagalista?", jaTakki,
+                    neiTakki);
             stadfesta.setTitle("Eyða lagalistanum");
             stadfesta.setHeaderText("Staðfesting");
 
@@ -174,7 +177,7 @@ public class PlayerController  {
     /**
      * Breytir mynd lagalistand.
      *
-     * @param index     tala sem auðkennir lagalista
+     * @param index tala sem auðkennir lagalista
      */
     private void breytaMynd(int index) {
         FileChooser fileChooser = new FileChooser();
@@ -191,8 +194,8 @@ public class PlayerController  {
     /**
      * Uppfærir mynd lagalistans.
      *
-     * @param index             tala sem auðkennir lagalista
-     * @param nyttImgPath       staðsetning nýju myndarinnar
+     * @param index       tala sem auðkennir lagalista
+     * @param nyttImgPath staðsetning nýju myndarinnar
      */
     private void uppfaeraMynd(int index, String nyttImgPath) {
         int rod = index / 2;
@@ -207,10 +210,10 @@ public class PlayerController  {
     /**
      * Leitar að viðeigandi myndreit lagalistans.
      *
-     * @param rod       röð myndreitsins
-     * @param dalkur    dalkur myndreitsins
-     * @param grind     GridPane hlutur
-     * @return          viðeigandi node hlutur
+     * @param rod    röð myndreitsins
+     * @param dalkur dalkur myndreitsins
+     * @param grind  GridPane hlutur
+     * @return viðeigandi node hlutur
      */
     private Node getNodeMyndarinnar(int rod, int dalkur, GridPane grind) {
         for (Node node : grind.getChildren()) {
@@ -255,7 +258,7 @@ public class PlayerController  {
      */
     private void ekkertPlassDialog() {
         ButtonType iLagiTakki = new ButtonType("Í lagi", ButtonBar.ButtonData.OK_DONE);
-        Alert alert = new Alert(Alert.AlertType.ERROR,"Eyða?", iLagiTakki);
+        Alert alert = new Alert(Alert.AlertType.ERROR, "Eyða?", iLagiTakki);
         alert.setTitle("Tókst ekki að búa til lagalistann");
         alert.setHeaderText("Villa");
         alert.setContentText("Ekkert pláss fyrir nýjan lagalista. Hámarksfjöldi er 10.");
@@ -270,12 +273,14 @@ public class PlayerController  {
     public void switchMode(ActionEvent actionEvent) {
         Scene scene = ViewSwitcher.getScene();
         lightModeOn = !lightModeOn;
-        if(lightModeOn){
+        if (lightModeOn) {
             scene.getStylesheets().clear(); // Clear existing stylesheets
-            scene.getStylesheets().add(PlayerApplication.class.getResource("/is/vidmot/css/lightMode.css").toExternalForm());
-        }else{
+            scene.getStylesheets()
+                    .add(PlayerApplication.class.getResource("/is/vidmot/css/lightMode.css").toExternalForm());
+        } else {
             scene.getStylesheets().clear(); // Clear existing stylesheets
-            scene.getStylesheets().add(PlayerApplication.class.getResource("/is/vidmot/css/darkMode.css").toExternalForm());
+            scene.getStylesheets()
+                    .add(PlayerApplication.class.getResource("/is/vidmot/css/darkMode.css").toExternalForm());
         }
     }
 
@@ -292,13 +297,16 @@ public class PlayerController  {
         // sýndu dialoginn
         Optional<Askrifandi> utkoma = dialog.showAndWait();
 
-        // Ef fékkst svar úr dialognum setjum við nafnið á áskrifandanum í notendaviðmótið
-        utkoma.ifPresent (a -> {
-            fxAskrifandi.setText(a.getNafn());});
+        // Ef fékkst svar úr dialognum setjum við nafnið á áskrifandanum í
+        // notendaviðmótið
+        utkoma.ifPresent(a -> {
+            fxAskrifandi.setText(a.getNafn());
+        });
     }
 
     /**
-     * Atburðarhandler fyrir að velja lagalista. Sá lagalisti er settur og farið í senu fyrir þann lista.
+     * Atburðarhandler fyrir að velja lagalista. Sá lagalisti er settur og farið í
+     * senu fyrir þann lista.
      *
      * @param mouseEvent
      */

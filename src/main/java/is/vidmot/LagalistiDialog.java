@@ -13,12 +13,12 @@ import java.io.IOException;
 import java.util.Optional;
 
 /******************************************************************************
- *  Nafn    :
- *  T-póstur:
- *  Viðmótsforritun 2024
+ * Nafn :
+ * T-póstur:
+ * Viðmótsforritun 2024
  *
- *  Dialog sem lætur nefna og búa til lagalista svo og velja mynd fyrir
- *  þann lagalista.
+ * Dialog sem lætur nefna og búa til lagalista svo og velja mynd fyrir
+ * þann lagalista.
  *
  *****************************************************************************/
 public class LagalistiDialog extends Dialog<Lagalisti> {
@@ -54,7 +54,7 @@ public class LagalistiDialog extends Dialog<Lagalisti> {
     /**
      * Les inn dialogsviðmót.
      *
-     * @return      tilbúið DialogPane
+     * @return tilbúið DialogPane
      */
     private DialogPane lesaDialog() {
         FXMLLoader fxmlLoader = new FXMLLoader(LagalistiDialog.class.getResource(View.NYRLAGALISTI.getFileName()));
@@ -67,7 +67,8 @@ public class LagalistiDialog extends Dialog<Lagalisti> {
     }
 
     /**
-     * Færa gögnin úr viðmótshlutum í dialog í vinnsluhlut, aftrar því að gögnin séu tóm.
+     * Færa gögnin úr viðmótshlutum í dialog í vinnsluhlut, aftrar því að gögnin séu
+     * tóm.
      */
     private void setResultConverter() {
         setResultConverter(b -> {

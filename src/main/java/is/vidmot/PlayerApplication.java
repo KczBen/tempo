@@ -10,12 +10,12 @@ import java.io.IOException;
 import java.util.Optional;
 
 /******************************************************************************
- *  Nafn    :
- *  T-póstur:
- *  Viðmótsforritun 2024
+ * Nafn :
+ * T-póstur:
+ * Viðmótsforritun 2024
  *
- *  Lýsing  : Application klasi fyrir AudioPlayer.
- *  Opnar heimasenu (heima-view.fxml).
+ * Lýsing : Application klasi fyrir AudioPlayer.
+ * Opnar heimasenu (heima-view.fxml).
  *
  *****************************************************************************/
 public class PlayerApplication extends Application {
@@ -24,7 +24,8 @@ public class PlayerApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(PlayerApplication.class.getResource("heima-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 540);
 
-        scene.getStylesheets().add(PlayerApplication.class.getResource("/is/vidmot/css/lightMode.css").toExternalForm());
+        scene.getStylesheets()
+                .add(PlayerApplication.class.getResource("/is/vidmot/css/lightMode.css").toExternalForm());
 
         ViewSwitcher.setScene(scene);
         ViewSwitcher.switchTo(View.HEIMA, true);
