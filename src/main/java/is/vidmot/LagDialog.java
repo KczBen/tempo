@@ -1,12 +1,11 @@
 package is.vidmot;
 
 import is.vinnsla.Lag;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.event.ActionEvent;
 
@@ -22,6 +21,13 @@ public class LagDialog extends Dialog<Lag> {
     private Button fxaddsong;
     @FXML
     private Button fxaddphoto;
+    @FXML
+    private Label fxvillubod;
+    @FXML
+    private Label fxFilePath;
+    @FXML
+    private ImageView fxLagMynd;
+
 
     public LagDialog() {
 
@@ -31,7 +37,7 @@ public class LagDialog extends Dialog<Lag> {
 
 
         fxaddsong.setOnAction(event -> {
-            try {
+            try{
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Veldu lag til að bæta við lagalista");
                 File selectedFile = fileChooser.showOpenDialog(null);
@@ -39,18 +45,16 @@ public class LagDialog extends Dialog<Lag> {
                 if (selectedFile != null) {
                     String fileName = selectedFile.getName();
                     String fileType = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
+                    fxFilePath.setText(fileName);
                     if (!(fileType.equals("mp3") || fileType.equals("mp4"))) {
-                        throw new RuntimeException("Ekki rétt tegund af skrá. Vinsamlegast veldu mp3 eða mp4 skrá");
+                        fxvillubod.setText("Skrá er ekki á réttu formi. Reyndu aftur");
                     }
                     songPath = selectedFile.toURI().toString();
-                } else {
-                    // Handle the case where no file is selected
-                    throw new RuntimeException("Ekkert lag valið. Vinsamlegast veldu lag.");
-                }
-            } catch (Exception e) {
-                // Handle any exceptions
-                e.printStackTrace(); // You can replace this with logging or displaying an alert to the user
+                } }
+            catch (NullPointerException e){
+                fxvillubod.setText("Óvænt villa kom upp. Reyndu aftur að velja skrá");
             }
+
         });
 
 
@@ -61,6 +65,8 @@ public class LagDialog extends Dialog<Lag> {
 
             if (selectedFile != null) {
                 imagePath = (selectedFile.toURI().toString());
+                Image image = new Image(imagePath);
+                fxLagMynd.setImage(image);
             }else{
                 imagePath = "media/default.jpg";
             }
@@ -76,8 +82,7 @@ public class LagDialog extends Dialog<Lag> {
 
                 String nafn = songPath.substring(songPath.lastIndexOf('/') + 1,songPath.lastIndexOf('.'));
                 int lengd = 1000 * Integer.parseInt(songPath.substring(songPath.lastIndexOf('-') + 1, songPath.lastIndexOf('s')));
-                Lag lag = new Lag(songPath, imagePath, nafn, lengd);
-                return lag;
+                return new Lag(songPath, imagePath, nafn, lengd);
             }else{
                 return null;
             }

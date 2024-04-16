@@ -29,6 +29,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import javafx.scene.Scene;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -452,12 +453,8 @@ public class ListiController  {
 
 
         utkoma.ifPresent (lag -> {
-            try {
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            lagalisti.addLagToList(lag);
+            
         });
 
 

@@ -106,4 +106,8 @@ public class Lagalisti {
         return imgPath;
     }
 
+    public void addLagToList(Lag lag) {
+        listi.add(lag);
+    }
+
 }
