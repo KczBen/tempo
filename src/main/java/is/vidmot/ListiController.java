@@ -63,6 +63,8 @@ public class ListiController {
     protected Button fxStartTime;
     @FXML
     protected Button fxStopTime;
+    @FXML
+    protected Label fxCurrentTime;
 
     // vinnslan
     private Lagalisti lagalisti; // lagalistinn
