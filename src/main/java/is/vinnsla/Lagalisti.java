@@ -9,40 +9,40 @@ import java.util.Random;
 import java.util.Scanner;
 
 /******************************************************************************
- *  Nafn    :
- *  T-póstur:
- *  Viðmótsforritun 2024
+ * Nafn :
+ * T-póstur:
+ * Viðmótsforritun 2024
  *
  * Vinnsluklasi fyrir lagalista. Lagalisti getur haft lista af Lag.
  * Heldur utan um núverandi lag.
  *
  *****************************************************************************/
 public class Lagalisti {
-    protected ObservableList<Lag> listi = FXCollections.observableArrayList();      // lagalistinn
-    private int index = 0;              // núverandi lag
-    private String imgPath;             // staðsetning myndarinnar fyrir lagalistann
-    private String nafnLagalistans;     // setja nafn lagalistans
+    protected ObservableList<Lag> listi = FXCollections.observableArrayList(); // lagalistinn
+    private int index = 0; // núverandi lag
+    private String imgPath; // staðsetning myndarinnar fyrir lagalistann
+    private String nafnLagalistans; // setja nafn lagalistans
 
     /**
      * Les skrá með eiginleikum laga og búa til lög.
      *
-     * @param nafnASkra     nafn á skrá
+     * @param nafnASkra nafn á skrá
      * @throws IOException
      */
     public void lesaLog(String nafnASkra) throws IOException {
-        System.out.println (System.getProperty("user.dir"));
-        File file = new File (System.getProperty("user.dir")+"/src/main/resources/is/vinnsla/"+nafnASkra);
+        System.out.println(System.getProperty("user.dir"));
+        File file = new File(System.getProperty("user.dir") + "/src/main/resources/is/vinnsla/" + nafnASkra);
         Scanner scanner = new Scanner(file, StandardCharsets.UTF_8);
-        String [] lina;
+        String[] lina;
         try {
             // lesa gögn ur skrá og búa til Lag hlut
             while (scanner.hasNextLine()) {
 
                 lina = scanner.nextLine().split(" ");
-                listi.add(new Lag (lina[0], lina [3], lina[1], Integer.parseInt(lina[2])));
+                listi.add(new Lag(lina[0], lina[3], lina[1], Integer.parseInt(lina[2])));
             }
             scanner.close();
-        }catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             e.printStackTrace();
         }
     }
@@ -54,8 +54,7 @@ public class Lagalisti {
         index = ++index % listi.size();
     }
 
-    public void random()
-    {
+    public void random() {
         Random rng = new Random();
         index = rng.nextInt(0, listi.size());
     }
@@ -63,11 +62,12 @@ public class Lagalisti {
     /**
      * Index á fyrra lag á lagalista (Tobba).
      */
-    public void fyrri(){
+    public void fyrri() {
         if (index == 0) {
-            index = listi.size() - 1;   //fer í aftasta lag á lista svo lendum ekki out of bounds
-        }else{
-            index = --index % listi.size();}
+            index = listi.size() - 1; // fer í aftasta lag á lista svo lendum ekki out of bounds
+        } else {
+            index = --index % listi.size();
+        }
     }
 
     // Get og Set aðferðir
@@ -95,6 +95,7 @@ public class Lagalisti {
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
     }
+
     public String getImgPath() {
         return imgPath;
     }

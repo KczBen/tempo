@@ -1,12 +1,12 @@
 package is.vinnsla;
 
 /******************************************************************************
- *  Nafn    :
- *  T-póstur:
- *  Viðmótsforritun 2024
+ * Nafn :
+ * T-póstur:
+ * Viðmótsforritun 2024
  *
- *  Vinnsluklasi fyrir Lag. Hefur nafn, lengd, mynd og media (skráaslóð) fyrir
- *  lagið.
+ * Vinnsluklasi fyrir Lag. Hefur nafn, lengd, mynd og media (skráaslóð) fyrir
+ * lagið.
  *
  *****************************************************************************/
 
