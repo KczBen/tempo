@@ -31,7 +31,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0">
                <children>
-                  <Button  mnemonicParsing="false" prefWidth="90.0" text="Hlaða mynd" />
+                  <Button fx:id="fxVeljaMynd" mnemonicParsing="false" prefWidth="90.0" text="Hlaða mynd" />
                </children>
                <VBox.margin>
                   <Insets left="5.0" />
