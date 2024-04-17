@@ -126,7 +126,7 @@
                 <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="4">
                     <children>
                         <Button mnemonicParsing="false" onAction="#onShuffle" prefHeight="30.0" prefWidth="26.0" styleClass="image-button">                          <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="fxShuffleButton" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                   <image>
                                       <Image url="@images/shuffle.png" />
                                   </image>
@@ -137,7 +137,7 @@
                      </HBox.margin>
                       </Button>
                             <Button mnemonicParsing="false" onAction="#onLoop" prefHeight="30.0" prefWidth="26.0" styleClass="image-button">                            <graphic>
-                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fx:id="fxLoopButton" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@images/reaplaysong.png" />
                                     </image>
