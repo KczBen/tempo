@@ -11,16 +11,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
+import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import javafx.scene.Scene;
 
 import java.util.Optional;
-
 
 /******************************************************************************
  * Nafn :
@@ -61,6 +62,10 @@ public class ListiController {
     protected Button fxStartTime;
     @FXML
     protected Button fxStopTime;
+    @FXML
+    protected ImageView fxLoopButton;
+    @FXML
+    protected ImageView fxShuffleButton;
     @FXML
     protected Label fxCurrentTime;
 
@@ -206,19 +211,19 @@ public class ListiController {
             if (nafnMynd.startsWith("file:/")) {
                 image = new Image(nafnMynd);
             }
-    
+
             else {
                 image = new Image(getClass().getResource(nafnMynd).toExternalForm());
             }
-    
+
             try {
                 fxImageView.setImage(image);
-            } 
-            
+            }
+
             catch (Exception e) {
                 e.printStackTrace();
                 System.err.println("No image! did you set an image?");
-            }            
+            }
         } catch (Exception e) {
             fxImageView.setImage(new Image(getClass().getResource("media/default.jpg").toExternalForm()));
         }
@@ -374,6 +379,13 @@ public class ListiController {
 
     private void toggleLoop() {
         if (player.getCycleCount() == 1) {
+
+            ColorAdjust active = new ColorAdjust();
+            active.setHue(177);
+            active.setSaturation(0.53);
+            active.setBrightness(0.71);
+            fxLoopButton.setEffect(active);
+
             player.setCycleCount(MediaPlayer.INDEFINITE);
 
             // If loop points have been set, loop from there
@@ -402,10 +414,23 @@ public class ListiController {
     private void toggleShuffle() {
         if (this.shuffle == false) {
             this.shuffle = true;
+
+            ColorAdjust active = new ColorAdjust();
+            active.setHue(177);
+            active.setSaturation(0.53);
+            active.setBrightness(0.71);
+            fxShuffleButton.setEffect(active);
+
         }
 
         else {
             this.shuffle = false;
+
+            ColorAdjust inactive = new ColorAdjust();
+            inactive.setHue(0);
+            inactive.setSaturation(0);
+            inactive.setBrightness(0);
+            fxShuffleButton.setEffect(inactive);
         }
     }
 
@@ -424,6 +449,12 @@ public class ListiController {
     }
 
     private void clearPoints() {
+        ColorAdjust inactive = new ColorAdjust();
+        inactive.setHue(0);
+        inactive.setSaturation(0);
+        inactive.setBrightness(0);
+        fxLoopButton.setEffect(inactive);
+
         this.startTime = Duration.ZERO;
         this.stopTime = new Duration(validLag.getLengd());
         fxStartTime.setText(TimeConverter.convertTime(this.startTime, false));
