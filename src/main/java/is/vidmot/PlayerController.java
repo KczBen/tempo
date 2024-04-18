@@ -70,7 +70,6 @@ public class PlayerController {
                 imageView.setFitHeight(70);
                 imageView.setFitWidth(150);
 
-                // imageView.setCursor(Cursor.HAND);
                 imageView.setOnMouseClicked(event -> {
                     if (event.getButton() == MouseButton.PRIMARY) {
                         Node node = (Node) event.getSource();
